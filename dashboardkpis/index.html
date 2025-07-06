@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GuestReady KPI Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1, h2 {
+      color: #1e90ff;
+    }
+    section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    ul {
+      padding-left: 1.5rem;
+    }
+    ul li {
+      margin-bottom: 0.8rem;
+    }
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .kpi-table th, .kpi-table td {
+      border: 1px solid #ddd;
+      padding: 0.8rem;
+      text-align: left;
+    }
+    .kpi-table th {
+      background-color: #1e90ff;
+      color: white;
+    }
+    .emoji {
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📈 GuestReady KPI Dashboard</h1>
+
+  <section>
+    <h2 class="emoji">📊 Revenue & Pricing Metrics</h2>
+    <ul>
+      <li><strong>Occupancy Rate</strong>: Percentage of days properties are booked. Indicates demand and pricing effectiveness.</li>
+      <li><strong>Average Daily Rate (ADR)</strong>: Average income earned per rented night. Essential for pricing strategy.</li>
+      <li><strong>RevPAR (Revenue per Available Room/Unit)</strong>: ADR × Occupancy rate or total revenue ÷ total available nights. Measures efficiency in pricing & occupancy.</li>
+      <li><strong>Adjusted RevPAR (ARPAR)</strong>: Revenue minus variable costs per night ÷ total available nights. Shows net revenue impact.</li>
+      <li><strong>Revenue Growth Rate</strong>: Measures the year-over-year increase in income. Indicates business expansion and success.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="emoji">💰 Profitability & Investment Metrics</h2>
+    <ul>
+      <li><strong>Net Operating Income (NOI)</strong>: Rental income minus operating expenses (cleaning, maintenance, etc.). Crucial for evaluating business profitability.</li>
+      <li><strong>Net Income / Margin</strong>: NOI minus taxes, administration, and financing costs ÷ total revenue. Shows overall profitability of the operation.</li>
+      <li><strong>Revenue per Property</strong>: Total revenue generated ÷ number of units. Helps benchmark the contribution of individual properties to the overall portfolio.</li>
+      <li><strong>Gross Rent Multiplier (GRM)</strong>: Property price ÷ Gross annual rental income. Used to determine if a property is a good investment based on its income potential.</li>
+      <li><strong>Capital Expenditures (CapEx)</strong>: Funds spent by the company to acquire, upgrade, and maintain physical assets such as property, industrial buildings, or equipment. These are significant investments in major improvements.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="emoji">⚙️ Efficiency & Cost Metrics</h2>
+    <ul>
+      <li><strong>Operating Expense Ratio (OER)</strong>: Total operating expenses ÷ gross operating income. Measures how well costs are controlled (ideal range typically 60–80%).</li>
+      <li><strong>Cost per Unit/Night</strong>: Average cost incurred for services like cleaning, utilities, and minor repairs on a per-unit or per-night basis. Helps manage hidden expenses and operational overhead.</li>
+      <li><strong>Maintenance Cost per Unit</strong>: The average cost associated with maintaining each property unit. This helps in budgeting for repairs and assessing the efficiency of maintenance operations.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="emoji">📈 Portfolio & Growth Metrics</h2>
+    <ul>
+      <li><strong>Unit Turnover / Vacancy Rate</strong>: Percentage of unused nights or unoccupied units. Indicates idle time within the portfolio and potential lost income.</li>
+      <li><strong>Tenant Turnover Rate</strong>: The frequency with which tenants move out of properties. Particularly relevant for long-term rentals, indicating tenant satisfaction and lease management effectiveness.</li>
+      <li><strong>Average Length of Stay (ALOS)</strong>: Total nights booked ÷ total number of bookings. Longer stays generally lead to lower turnover costs and higher efficiency.</li>
+      <li><strong>Revenue per Channel</strong>: Breakdown of revenue generated from each booking platform (e.g., Airbnb, Booking.com, direct bookings). Guides marketing efforts and distribution strategy optimization.</li>
+      <li><strong>Average Days to Rent</strong>: Measures the time it takes to fill a vacant unit from the moment it becomes available. A lower number indicates efficient marketing and tenant placement.</li>
+      <li><strong>Renewal Rate</strong>: Percentage of tenants who renew their leases. A high renewal rate indicates tenant satisfaction and reduces turnover costs.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="emoji">🔧 Operational & Guest Experience Metrics</h2>
+    <ul>
+      <li><strong>Guest Satisfaction / Ratings</strong>: Scores or reviews from guests. Higher satisfaction generally leads to better Average Daily Rate (ADR) and repeat bookings.</li>
+      <li><strong>Inquiry-to-Booking Rate</strong>: Percentage of inquiries that convert into confirmed bookings. Measures the effectiveness of the sales funnel and responsiveness.</li>
+      <li><strong>Cancellation Rate</strong>: Percentage of bookings that are cancelled. A high rate can indicate issues with pricing, property description, or unexpected events, leading to lost revenue and planning difficulties.</li>
+      <li><strong>Delinquency Rate</strong>: Measures the percentage of tenants who are late on their rent payments. Essential for assessing cash flow and the effectiveness of rent collection processes.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="emoji">✅ KPI Summary Table</h2>
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Occupancy Rate</td><td>Track demand & utilization</td></tr>
+        <tr><td>ADR</td><td>Measure pricing effectiveness</td></tr>
+        <tr><td>RevPAR / ARPAR</td><td>Assess revenue efficiency</td></tr>
+        <tr><td>Revenue Growth Rate</td><td>Monitor overall business growth</td></tr>
+        <tr><td>NOI / Net Income</td><td>Gauge overall profitability</td></tr>
+        <tr><td>Revenue per Property</td><td>Benchmark unit performance</td></tr>
+        <tr><td>Gross Rent Multiplier (GRM)</td><td>Evaluate property investment potential</td></tr>
+        <tr><td>Capital Expenditures (CapEx)</td><td>Track investments in property improvements</td></tr>
+        <tr><td>OER & Cost per Unit</td><td>Control operational costs</td></tr>
+        <tr><td>Maintenance Cost per Unit</td><td>Manage repair and upkeep expenses</td></tr>
+        <tr><td>ALOS</td><td>Reduce turnover & optimize costs</td></tr>
+        <tr><td>Unit Turnover / Vacancy Rate</td><td>Indicate idle time and lost revenue</td></tr>
+        <tr><td>Tenant Turnover Rate</td><td>Assess tenant retention and satisfaction (long-term)</td></tr>
+        <tr><td>Average Days to Rent</td><td>Measure efficiency in filling vacancies</td></tr>
+        <tr><td>Renewal Rate</td><td>Indicate tenant satisfaction and retention</td></tr>
+        <tr><td>Revenue per Channel</td><td>Optimize distribution strategy</td></tr>
+        <tr><td>Guest Score, Conversion, Cancellations</td><td>Enhance guest experience & revenue reliability</td></tr>
+        <tr><td>Delinquency Rate</td><td>Monitor rent payment timeliness and cash flow</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="emoji">🎯 Usage Tips</h2>
+    <ul>
+      <li><strong>Dashboard:</strong> Track ADR, occupancy, RevPAR, NOI, OER, ALOS, channel revenues, and key operational metrics.</li>
+      <li><strong>Benchmark:</strong> Compare performance by month, region, and market segment to identify trends and areas for improvement.</li>
+      <li><strong>Optimize:</strong> Continuously focus on strategies for dynamic pricing, efficient cost control, and enhancing guest experience.</li>
+      <li><strong>Owner Reports:</strong> Prioritize clarity and transparency with key financial KPIs like NOI, RevPAR, and occupancy rates.</li>
+      <li><strong>Long-term vs. Short-term:</strong> Differentiate KPIs relevant for long-term rental management (e.g., Tenant Turnover, Delinquency Rate, Renewal Rate) versus short-term vacation rentals (e.g., ADR, RevPAR, Cancellation Rate).</li>
+    </ul>
+  </section>
+</body>
+</html>
