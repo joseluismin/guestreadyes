@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva del Alquiler Turístico en España</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: La SPA se estructura como un panel de control dinámico ("dashboard") centrado en el perfil del usuario. El flujo principal comienza con la selección del actor (Propietario Física, Jurídica, etc.). Esta acción filtra todo el contenido visible, presentando únicamente la información relevante para ese perfil. Las secciones están organizadas por tareas: 1) Visión General con riesgos clave, 2) Obligaciones Fiscales con visualizaciones, 3) Regulación Autonómica comparativa e interactiva, y 4) un Checklist de Cumplimiento práctico. Esta estructura se eligió para transformar un informe denso y lineal en una herramienta de consulta rápida y orientada a la acción, respondiendo directamente a la pregunta del usuario: "¿Qué me afecta a MÍ?". -->
+    <!-- Visualization & Content Choices: La información se presenta de forma interactiva para facilitar la comprensión. Las cuantías de las sanciones se visualizan en un gráfico de barras (Chart.js) para transmitir el riesgo de forma inmediata (Goal: Informar/Alertar). La fiscalidad se organiza en tarjetas expandibles para evitar la sobrecarga de información (Goal: Organizar). La comparativa de normativas autonómicas se realiza mediante un sistema de pestañas para facilitar el acceso a información específica (Goal: Comparar). La sección de "Errores Frecuentes" se convierte en un checklist interactivo para que el usuario pueda autoevaluar su cumplimiento (Goal: Organizar/Actuar). Se usan bloques de texto concisos en lugar de párrafos largos. Justificación: priorizar la usabilidad y la rápida asimilación de información compleja. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { border-color: #2563eb; color: #2563eb; background-color: #eff6ff; }
+        .actor-btn-active { background-color: #1d4ed8; color: white; }
+        .details-marker::marker { content: '▸ '; color: #2563eb; }
+        details[open] .details-marker::marker { content: '▾ '; }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; }
+        @media (min-width: 640px) {
+            .chart-container { height: 350px; }
+        }
+        @media (min-width: 1024px) {
+            .chart-container { height: 400px; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">Guía Interactiva del Alquiler Turístico en España</h1>
+            <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">Una herramienta para entender sus obligaciones, derechos y riesgos legales. Actualizado a <span id="update-date"></span>.</p>
+            <p class="mt-2 text-sm text-slate-500">Este informe no constituye asesoramiento jurídico personalizado.</p>
+        </header>
+
+        <main>
+            <section id="actor-selector" class="mb-8 md:mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                    <h2 class="text-xl font-semibold text-center text-slate-800 mb-4">Para empezar, seleccione su perfil:</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <button data-actor="persona_fisica" class="actor-btn actor-btn-active w-full p-3 font-medium rounded-lg bg-slate-100 hover:bg-blue-100 transition-colors duration-200">👤 Propietario Persona Física</button>
+                        <button data-actor="persona_juridica" class="actor-btn w-full p-3 font-medium rounded-lg bg-slate-100 hover:bg-blue-100 transition-colors duration-200">🏢 Propietario Persona Jurídica</button>
+                        <button data-actor="gran_tenedor" class="actor-btn w-full p-3 font-medium rounded-lg bg-slate-100 hover:bg-blue-100 transition-colors duration-200">🏦 Gran Tenedor</button>
+                        <button data-actor="empresa_gestora" class="actor-btn w-full p-3 font-medium rounded-lg bg-slate-100 hover:bg-blue-100 transition-colors duration-200">🤝 Empresa de Gestión</button>
+                    </div>
+                </div>
+            </section>
+            
+            <div id="content-container">
+                
+                <section id="general-overview" class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Visión General y Riesgos Clave</h2>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p id="overview-text" class="mb-4 text-slate-700"></p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                                <h4 class="font-semibold text-red-800">Riesgo Principal: Operar sin Licencia</h4>
+                                <p class="text-sm text-red-700">Es la infracción más grave. Las sanciones pueden alcanzar hasta 900.000€ y conllevar el cese inmediato de la actividad.</p>
+                            </div>
+                             <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                                <h4 class="font-semibold text-amber-800">Riesgo Fiscal: Declaración Incorrecta</h4>
+                                <p class="text-sm text-amber-700">No declarar los ingresos o aplicar incorrectamente el IVA puede acarrear inspecciones y sanciones significativas de la AEAT.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="fiscalidad" class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Sus Obligaciones Fiscales</h2>
+                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="mb-6 text-slate-700">La fiscalidad es una de las áreas más complejas y depende directamente de su perfil y de los servicios que preste. A continuación se detallan los impuestos clave que le afectan. Explore cada uno para entender la base imponible, los tipos aplicables y los modelos de declaración.</p>
+                        <div id="taxes-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="sanciones" class="mb-8">
+                     <h2 class="text-2xl font-bold text-slate-900 mb-4">Visualización del Régimen Sancionador</h2>
+                      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="mb-4 text-slate-700">El incumplimiento de la normativa puede acarrear sanciones económicas muy elevadas. Este gráfico compara las cuantías máximas de las multas según el tipo de infracción (leve, grave o muy grave) en las principales áreas regulatorias. Es un recordatorio visual de la importancia de operar legalmente.</p>
+                        <div class="chart-container">
+                            <canvas id="sancionesChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="regulacion-autonomica" class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Regulación por Comunidad Autónoma</h2>
+                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="mb-6 text-slate-700">La regulación del alquiler turístico es competencia de las Comunidades Autónomas, y los Ayuntamientos pueden añadir limitaciones urbanísticas. Esto crea un mosaico normativo. Seleccione una comunidad para ver un resumen de sus requisitos y tendencias más relevantes.</p>
+                        <div class="flex flex-wrap gap-2 border-b border-slate-200 mb-4">
+                            <button class="ccaa-tab tab-active px-4 py-2 text-sm font-medium border-b-2" data-ccaa="cataluna">Cataluña</button>
+                            <button class="ccaa-tab px-4 py-2 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-blue-600" data-ccaa="madrid">Madrid</button>
+                            <button class="ccaa-tab px-4 py-2 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-blue-600" data-ccaa="andalucia">Andalucía</button>
+                            <button class="ccaa-tab px-4 py-2 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-blue-600" data-ccaa="valenciana">C. Valenciana</button>
+                            <button class="ccaa-tab px-4 py-2 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-blue-600" data-ccaa="canarias">Canarias</button>
+                        </div>
+                        <div id="ccaa-content" class="p-4 bg-slate-50 rounded-lg">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="checklist" class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Checklist Interactivo de Cumplimiento</h2>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="mb-6 text-slate-700">Utilice esta lista de verificación para autoevaluar su nivel de cumplimiento. Se basa en los errores más frecuentes y las buenas prácticas del sector, adaptándose a su perfil seleccionado. Marque las casillas para asegurarse de que tiene todos los puntos clave cubiertos.</p>
+                        <div id="checklist-container" class="space-y-4">
+                        </div>
+                    </div>
+                </section>
+                
+                 <section id="glosario" class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Glosario de Términos Clave</h2>
+                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                         <p class="mb-6 text-slate-700">El sector del alquiler turístico utiliza una terminología legal y fiscal específica. Esta sección le ayuda a entender los conceptos más importantes. Utilice el buscador para encontrar rápidamente una definición.</p>
+                        <input type="text" id="glossary-search" placeholder="Buscar término (ej. LAU, VUT, IRPF)..." class="w-full p-3 border border-slate-300 rounded-lg mb-6 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <div id="glossary-content" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const data = {
+                persona_fisica: {
+                    overview: "Como propietario particular, su principal desafío es distinguir si sus ingresos son rendimientos de capital inmobiliario o de actividades económicas, lo que afecta directamente a su IRPF y a la posible sujeción a IVA. La regulación autonómica y el registro de viajeros son obligaciones ineludibles.",
+                    taxes: [
+                        { name: "IRPF", desc: "Principal impuesto. Tributa como Rendimiento de Capital Inmobiliario (sin servicios hoteleros) o como Actividad Económica (con servicios y personal).", details: "<strong>RCI:</strong> Ingresos - Gastos Deducibles. Sin reducción del 60%.<br><strong>Act. Económica:</strong> Requiere personal contratado. Más gastos deducibles.<br><strong>Modelos:</strong> 100, 130 (si actividad), 210 (no residentes)." },
+                        { name: "IVA", desc: "Generalmente exento si no se prestan servicios hoteleros. Si se prestan (limpieza diaria, recepción), está sujeto al 21%.", details: "<strong>Exento:</strong> Lo más común. Sin factura con IVA.<br><strong>Sujeto al 21%:</strong> Requiere alta en Hacienda (Mod. 036), declaraciones trimestrales (Mod. 303) y resumen anual (Mod. 390)." },
+                        { name: "IAE", desc: "Impuesto sobre Actividades Económicas. Exento si la cifra de negocio es < 1M€.", details: "Aunque exento de pago, es obligatorio darse de alta en el censo con el modelo 840/848 si se califica como actividad económica." },
+                        { name: "Otros", desc: "IBI, Plusvalía Municipal (al vender), ITP/AJD (al comprar)." }
+                    ],
+                    checklist: [
+                        "He verificado la normativa urbanística de mi municipio.",
+                        "Tengo licencia o declaración responsable presentada y vigente.",
+                        "Mi número de registro turístico figura en toda la publicidad.",
+                        "Declaro correctamente los ingresos en el IRPF (como RCI o Act. Económica).",
+                        "Comunico los datos de todos los viajeros (>16 años) a la Policía/Guardia Civil.",
+                        "Tengo un contrato de alojamiento claro para los huéspedes.",
+                        "Dispongo de hojas de reclamaciones oficiales.",
+                        "Mi seguro del hogar cubre el uso como vivienda turística."
+                    ]
+                },
+                persona_juridica: {
+                    overview: "Como sociedad, la actividad se presume siempre económica. Esto implica obligaciones contables y fiscales más complejas, incluyendo el Impuesto sobre Sociedades y, generalmente, la aplicación de IVA al 21% sobre los alquileres.",
+                    taxes: [
+                        { name: "Impuesto sobre Sociedades (IS)", desc: "Tributa sobre el beneficio contable. El tipo general es del 25%.", details: "<strong>Base Imponible:</strong> Ingresos - Gastos deducibles.<br><strong>Tipo General:</strong> 25%.<br><strong>Modelos:</strong> 200 (anual), 202 (pagos fraccionados)." },
+                        { name: "IVA", desc: "La actividad de alquiler turístico por una sociedad está sujeta y no exenta de IVA.", details: "<strong>Tipo:</strong> 21% a repercutir en factura al huésped.<br><strong>Obligaciones:</strong> Declaraciones trimestrales (Mod. 303) y anuales (Mod. 390)." },
+                        { name: "IAE", desc: "Obligatorio el pago si la cifra de negocio supera 1M€, pero siempre obligatorio el alta.", details: "El epígrafe suele ser el 685 (Alojamientos turísticos extrahoteleros)." },
+                        { name: "Otros", desc: "IBI, Plusvalía Municipal (al vender), ITP/AJD (al comprar)." }
+                    ],
+                    checklist: [
+                        "La sociedad está dada de alta en el IAE correspondiente.",
+                        "Se emiten facturas con el 21% de IVA a los huéspedes.",
+                        "Se presenta el Impuesto sobre Sociedades (Mod. 200 y 202).",
+                        "Se cumplen todas las obligaciones de registro y licencia turística.",
+                        "Se comunican los datos de los viajeros a la Policía/Guardia Civil.",
+                        "Existe un contrato de encargado del tratamiento si una gestora externa maneja datos.",
+                        "Se dispone de hojas de reclamaciones.",
+                        "Se cumplen las obligaciones de prevención de blanqueo de capitales si procede."
+                    ]
+                },
+                gran_tenedor: {
+                    overview: "Fiscalmente, se le aplican las reglas de persona física o jurídica según corresponda. Su principal particularidad radica en las obligaciones adicionales de la Ley de Vivienda en 'zonas tensionadas', aunque esto afecta más al alquiler de larga duración.",
+                    taxes: [
+                         { name: "Fiscalidad Aplicable", desc: "La fiscalidad depende de si opera como persona física o como sociedad.", details: "Consulte la pestaña de 'Propietario Persona Física' o 'Propietario Persona Jurídica' para un desglose detallado de los impuestos correspondientes." },
+                         { name: "Obligaciones Adicionales", desc: "Más allá de lo fiscal, pueden existir obligaciones específicas en materia de vivienda.", details: "En 'zonas de mercado residencial tensionado', la Ley de Vivienda puede imponer deberes de información y negociación con inquilinos vulnerables, incluso si la vocación principal es turística." }
+                    ],
+                    checklist: [
+                        "Identificar si alguno de mis inmuebles está en 'zona de mercado tensionado'.",
+                        "Cumplir con las obligaciones fiscales del perfil correspondiente (físico o jurídico).",
+                        "Asegurar que toda la cartera de inmuebles turísticos tiene su licencia.",
+                        "Tener un sistema centralizado para el registro de viajeros de todas las propiedades.",
+                        "Gestionar de forma unificada las obligaciones de IVA e IS si opero como sociedad.",
+                        "Evaluar la necesidad de un Delegado de Protección de Datos (DPD) por el volumen de datos."
+                    ]
+                },
+                empresa_gestora: {
+                    overview: "Su rol es de intermediario y prestador de servicios. Sus obligaciones fiscales se centran en el IS por sus beneficios y el IVA por sus comisiones. Actúa como 'Encargado del Tratamento' de datos y puede ser 'Sujeto Obligado' en prevención de blanqueo de capitales (PBC).",
+                    taxes: [
+                        { name: "Impuesto sobre Sociedades (IS)", desc: "Tributa por los beneficios de su actividad de gestión. Tipo general del 25%.", details: "<strong>Base Imponible:</strong> Comisiones y otros ingresos - Gastos de la actividad.<br><strong>Modelos:</strong> 200 (anual), 202 (pagos fraccionados)." },
+                        { name: "IVA", desc: "Los servicios de gestión y las comisiones cobradas al propietario están sujetos al 21% de IVA.", details: "Debe repercutir IVA al propietario por sus servicios.<br><strong>Modelos:</strong> 303 (trimestral), 390 (anual), 347 (operaciones con terceros)." },
+                        { name: "Prevención Blanqueo Capitales (PBC)", desc: "Son sujetos obligados. Deben aplicar medidas de diligencia debida.", details: "Obligaciones: Identificar clientes, analizar riesgo, comunicar operaciones sospechosas al SEPBLAC, conservar documentación 10 años." }
+                    ],
+                    checklist: [
+                        "Tengo un contrato de 'Encargado del Tratamiento' firmado con cada propietario.",
+                        "Aplico el 21% de IVA en las facturas de comisiones a los propietarios.",
+                        "Cumplo con las obligaciones del Impuesto sobre Sociedades.",
+                        "He implementado un manual y procedimientos de Prevención de Blanqueo de Capitales (PBC).",
+                        "Aseguro que todas las propiedades que gestiono tienen licencia y la publicitan.",
+                        "Gestiono el registro de viajeros para mis clientes.",
+                        "Facilito las hojas de reclamaciones en las propiedades gestionadas."
+                    ]
+                }
+            };
+            
+            const ccaaData = {
+                cataluna: {
+                    title: "Cataluña: Regulación Restrictiva",
+                    content: "<ul><li class='mb-2'><strong>Licencia:</strong> Se requiere licencia municipal previa (no basta declaración responsable).</li><li class='mb-2'><strong>Barcelona (PEAU):</strong> Prohibición de nuevas licencias en casi toda la ciudad y caducidad de las existentes.</li><li class='mb-2'><strong>Duración:</strong> El alquiler turístico se limita a estancias inferiores a 31 días.</li><li class='mb-2'><strong>Requisitos:</strong> Cédula de habitabilidad vigente y prohibición de conductas incívicas.</li></ul>"
+                },
+                madrid: {
+                    title: "Madrid: Requisitos Urbanísticos Clave",
+                    content: "<ul><li class='mb-2'><strong>Uso Terciario:</strong> Las VUT deben tener un uso terciario de hospedaje en el planeamiento urbanístico, lo que las inhabilita en la mayoría de edificios residenciales.</li><li class='mb-2'><strong>Acceso Independiente:</strong> Requisito de acceso independiente desde la calle, no por el portal común de los vecinos.</li><li class='mb-2'><strong>Certificado Idoneidad (CIVUT):</strong> Necesario para obtener el registro.</li><li class='mb-2'><strong>Tendencia:</strong> Muy restrictiva para nuevas aperturas, con miles de expedientes de cese de actividad.</li></ul>"
+                },
+                andalucia: {
+                    title: "Andalucía: Flexibilidad con Control Comunitario",
+                    content: "<ul><li class='mb-2'><strong>Procedimiento:</strong> Se inicia la actividad con la presentación de una Declaración Responsable.</li><li class='mb-2'><strong>Comunidades de Propietarios:</strong> Pueden prohibir o limitar la actividad por mayoría de 3/5 partes.</li><li class='mb-2'><strong>Requisitos:</strong> Climatización (frío/calor) obligatoria, botiquín, teléfono 24h.</li><li class='mb-2'><strong>Tendencia:</strong> Creciente restricción a nivel municipal (Sevilla, Málaga) y por parte de las comunidades.</li></ul>"
+                },
+                valenciana: {
+                    title: "Comunidad Valenciana: El Filtro Urbanístico",
+                    content: "<ul><li class='mb-2'><strong>Compatibilidad Urbanística:</strong> Imprescindible un informe favorable del Ayuntamiento para poder presentar la declaración responsable.</li><li class='mb-2'><strong>Valencia Ciudad:</strong> Normas muy restrictivas que limitan las licencias a bajos y primeras plantas, o las prohíben en zonas saturadas.</li><li class='mb-2'><strong>Comunidades de Propietarios:</strong> También pueden prohibir o limitar la actividad.</li><li class='mb-2'><strong>Seguro RC:</strong> Obligatorio.</li></ul>"
+                },
+                canarias: {
+                    title: "Canarias: Regulación en Transición",
+                    content: "<ul><li class='mb-2'><strong>Procedimiento:</strong> Se inicia con Declaración Responsable.</li><li class='mb-2'><strong>Inestabilidad Normativa:</strong> El decreto de 2015 fue parcialmente anulado por los tribunales. Un nuevo decreto está en tramitación para dar mayor seguridad jurídica.</li><li class='mb-2'><strong>Exclusiones:</strong> La regulación inicial excluía suelos turísticos, pero esto fue anulado judicialmente.</li><li class='mb-2'><strong>Tendencia:</strong> Expectante ante la nueva normativa, que previsiblemente dará más poder de ordenación a cabildos y ayuntamientos.</li></ul>"
+                }
+            };
+            
+            const glossaryData = {
+                "LAU": "Ley de Arrendamientos Urbanos. Regula los alquileres de vivienda habitual y de temporada, pero excluye el alquiler turístico si este está regulado por la normativa sectorial.",
+                "VUT": "Vivienda de Uso Turístico. Denominación legal de las viviendas que se ceden temporalmente, con fines turísticos, a cambio de un precio.",
+                "Declaración Responsable": "Documento por el que el interesado manifiesta que cumple los requisitos para iniciar una actividad. Permite comenzar a operar de inmediato, bajo posterior inspección.",
+                "Licencia Urbanística": "Permiso municipal que autoriza un determinado uso del suelo (en este caso, turístico). Es un procedimiento más largo y restrictivo que la declaración responsable.",
+                "IRPF": "Impuesto sobre la Renta de las Personas Físicas. Grava los ingresos de los particulares. En alquiler turístico, pueden ser rendimientos de capital inmobiliario o de actividad económica.",
+                "IVA": "Impuesto sobre el Valor Añadido. Grava el consumo. En alquileres turísticos, generalmente está exento para particulares sin servicios hoteleros, pero es obligatorio (21%) para sociedades o si se prestan dichos servicios.",
+                "IS": "Impuesto sobre Sociedades. Grava los beneficios de las empresas. Tipo general del 25%.",
+                "IAE": "Impuesto sobre Actividades Económicas. Grava la actividad empresarial. Personas físicas y sociedades con facturación <1M€ están exentas de pago, pero no de alta.",
+                "PEAU": "Plan Especial de Alojamientos Turísticos. Plan urbanístico de Barcelona que restringe severamente las VUT.",
+                "PEUAH": "Plan Especial de Usos de Hospedaje. Plan urbanístico de Madrid que exige uso terciario y acceso independiente a las VUT.",
+                "SEPBLAC": "Servicio Ejecutivo de la Comisión de Prevención del Blanqueo de Capitales e Infracciones Monetarias. La unidad de inteligencia financiera de España.",
+                "RAT": "Registro de Actividades de Tratamiento. Documento interno obligatorio bajo el RGPD que detalla los tratamientos de datos personales que realiza una organización.",
+                "Encargado del Tratamiento": "Persona o entidad que trata datos personales por cuenta del responsable (ej. una gestora que trata datos de los huéspedes en nombre del propietario)."
+            };
+
+            let currentState = { actor: 'persona_fisica', ccaa: 'cataluna' };
+
+            const actorButtons = document.querySelectorAll('.actor-btn');
+            const ccaaTabs = document.querySelectorAll('.ccaa-tab');
+            const overviewText = document.getElementById('overview-text');
+            const taxesGrid = document.getElementById('taxes-grid');
+            const checklistContainer = document.getElementById('checklist-container');
+            const ccaaContent = document.getElementById('ccaa-content');
+            const glossaryContent = document.getElementById('glossary-content');
+            const glossarySearch = document.getElementById('glossary-search');
+
+            function updateView() {
+                const actorData = data[currentState.actor];
+                
+                actorButtons.forEach(btn => {
+                    btn.classList.toggle('actor-btn-active', btn.dataset.actor === currentState.actor);
+                });
+
+                overviewText.innerHTML = actorData.overview;
+                
+                taxesGrid.innerHTML = '';
+                actorData.taxes.forEach(tax => {
+                    const taxCard = document.createElement('div');
+                    taxCard.className = 'bg-slate-50 p-4 rounded-lg border border-slate-200';
+                    taxCard.innerHTML = `
+                        <h4 class="font-semibold text-blue-700">${tax.name}</h4>
+                        <p class="text-sm text-slate-600 mt-1 mb-2">${tax.desc}</p>
+                        ${tax.details ? `<details><summary class="text-sm font-medium text-blue-600 cursor-pointer details-marker">Más detalles</summary><p class="mt-2 text-xs text-slate-500 bg-white p-2 rounded">${tax.details}</p></details>` : ''}
+                    `;
+                    taxesGrid.appendChild(taxCard);
+                });
+
+                checklistContainer.innerHTML = '';
+                actorData.checklist.forEach((item, index) => {
+                    const checkItem = document.createElement('div');
+                    checkItem.className = 'flex items-start';
+                    checkItem.innerHTML = `
+                        <input id="check-${index}" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mt-1">
+                        <label for="check-${index}" class="ml-3 text-sm text-slate-700">${item}</label>
+                    `;
+                    checklistContainer.appendChild(checkItem);
+                });
+                
+                updateCcaaView();
+            }
+            
+            function updateCcaaView() {
+                const ccaaInfo = ccaaData[currentState.ccaa];
+                ccaaTabs.forEach(tab => {
+                    tab.classList.toggle('tab-active', tab.dataset.ccaa === currentState.ccaa);
+                    if(tab.dataset.ccaa !== currentState.ccaa) {
+                        tab.classList.remove('text-blue-600', 'bg-blue-50');
+                        tab.classList.add('text-slate-500');
+                    }
+                });
+                ccaaContent.innerHTML = `
+                    <h4 class="font-semibold text-lg mb-2 text-slate-800">${ccaaInfo.title}</h4>
+                    <div class="text-sm text-slate-600 space-y-2">${ccaaInfo.content}</div>
+                `;
+            }
+
+            actorButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    currentState.actor = button.dataset.actor;
+                    updateView();
+                });
+            });
+            
+            ccaaTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentState.ccaa = tab.dataset.ccaa;
+                    updateCcaaView();
+                });
+            });
+            
+            function populateGlossary(filter = '') {
+                glossaryContent.innerHTML = '';
+                const filteredKeys = Object.keys(glossaryData).filter(key => key.toLowerCase().includes(filter.toLowerCase()));
+                
+                if (filteredKeys.length === 0) {
+                     glossaryContent.innerHTML = `<p class="text-sm text-slate-500">No se encontraron resultados.</p>`;
+                     return;
+                }
+
+                filteredKeys.forEach(key => {
+                    const termDiv = document.createElement('div');
+                    termDiv.innerHTML = `
+                        <details class="group">
+                            <summary class="flex justify-between items-center font-semibold text-slate-800 cursor-pointer list-none">
+                                <span>${key}</span>
+                                <span class="transition group-open:rotate-180">
+                                    <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                                </span>
+                            </summary>
+                            <p class="text-slate-600 mt-2 group-open:animate-fadeIn text-sm">${glossaryData[key]}</p>
+                        </details>
+                    `;
+                    glossaryContent.appendChild(termDiv);
+                });
+            }
+
+            glossarySearch.addEventListener('input', (e) => {
+                populateGlossary(e.target.value);
+            });
+
+
+            const sancionesCtx = document.getElementById('sancionesChart').getContext('2d');
+            const sancionesChart = new Chart(sancionesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Turismo', 'Consumo', 'Protección Datos'],
+                    datasets: [
+                        {
+                            label: 'Leve (€)',
+                            data: [3000, 3000, 40000],
+                            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Grave (€)',
+                            data: [90000, 45000, 10000000], 
+                            backgroundColor: 'rgba(245, 158, 11, 0.5)',
+                            borderColor: 'rgba(245, 158, 11, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Muy Grave (€)',
+                            data: [900000, 600000, 20000000],
+                            backgroundColor: 'rgba(239, 68, 68, 0.5)',
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    if (value === 1000000000) return '1B';
+                                    if (value === 100000000) return '100M';
+                                    if (value === 20000000) return '20M';
+                                    if (value === 10000000) return '10M';
+                                    if (value === 1000000) return '1M';
+                                    if (value === 100000) return '100k';
+                                    if (value === 10000) return '10k';
+                                    if (value === 1000) return '1k';
+                                    return null;
+                                },
+                                 color: '#475569'
+                            },
+                            grid: {
+                                color: '#e2e8f0'
+                            }
+                        },
+                        x: {
+                             ticks: {
+                                color: '#475569'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                             labels: {
+                                color: '#1e293b'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('update-date').textContent = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            updateView();
+            populateGlossary();
+        });
+    </script>
+</body>
+</html>
