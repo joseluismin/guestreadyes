@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Alquiler en España - Consultor Legal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .rental-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .rental-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rental-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .rental-card.turismo {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #3498db08, #3498db15);
+        }
+
+        .rental-card.media {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #f39c1208, #f39c1215);
+        }
+
+        .rental-card.larga {
+            border-color: #27ae60;
+            background: linear-gradient(135deg, #27ae6008, #27ae6015);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .card-subtitle {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            line-height: 1.6;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+        }
+
+        .info-icon {
+            font-size: 1.2rem;
+            margin-right: 10px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 80px;
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .ccaa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .ccaa-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .ccaa-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .ccaa-rule {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .rental-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 Tipos de Alquiler en España</h1>
+            <p>Consultor legal y fiscal interactivo</p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar por duración, tipo, normativa, IVA...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Comparativa</button>
+            <button class="tab" onclick="showTab('details')">📋 Detalles</button>
+            <button class="tab" onclick="showTab('ccaa')">🗺️ Por CCAA</button>
+            <button class="tab" onclick="showTab('calculator')">🧮 Calculadora</button>
+        </div>
+
+        <div class="content">
+            <div id="overview" class="tab-content">
+                <h2>Comparativa de Tipos de Alquiler</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>🟦 Turístico</th>
+                            <th>🟨 Media Estancia</th>
+                            <th>🟩 Larga Duración</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Duración</strong></td>
+                            <td>≤ 31 días</td>
+                            <td>32 días - 11 meses</td>
+                            <td>≥ 1 año</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Finalidad</strong></td>
+                            <td>Vacacional</td>
+                            <td>Temporal (trabajo, estudio)</td>
+                            <td>Residencia habitual</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Servicios</strong></td>
+                            <td>A veces tipo hotelero</td>
+                            <td>No (normalmente)</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IVA</strong></td>
+                            <td>10% o no sujeto</td>
+                            <td>No sujeto</td>
+                            <td>Exento</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Normativa</strong></td>
+                            <td>Turismo autonómico</td>
+                            <td>LAU (uso temporal)</td>
+                            <td>LAU (vivienda habitual)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="details" class="tab-content hidden">
+                <h2>Información Detallada</h2>
+                <div class="rental-cards">
+                    <div class="rental-card turismo">
+                        <div class="card-header">
+                            <div class="card-icon">🏖️</div>
+                            <div>
+                                <div class="card-title">Alquiler Turístico</div>
+                                <div class="card-subtitle">Short-Term Rental (STR)</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-row">
+                                <div class="info-icon">⏱️</div>
+                                <div class="info-label">Duración:</div>
+                                <div class="info-value">Normalmente inferior a 31 días</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🏠</div>
+                                <div class="info-label">Uso:</div>
+                                <div class="info-value">Vacacional o de ocio; no hay voluntad de residencia habitual</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🛎️</div>
+                                <div class="info-label">Servicios:</div>
+                                <div class="info-value">Puede incluir servicios complementarios (limpieza, amenities, etc.)</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🧾</div>
+                                <div class="info-label">Fiscalidad:</div>
+                                <div class="info-value">Con servicios hoteleros → IVA 10% | Sin servicios → No sujeto a IVA | Siempre tributa en IRPF o IS</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">📜</div>
+                                <div class="info-label">Normativa:</div>
+                                <div class="info-value">Regulado por normativas autonómicas (licencia turística, registro, etc.)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rental-card media">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div>
+                                <div class="card-title">Alquiler Media Estancia</div>
+                                <div class="card-subtitle">Mid-Term Rental</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-row">
+                                <div class="info-icon">⏱️</div>
+                                <div class="info-label">Duración:</div>
+                                <div class="info-value">Entre 32 días y 11 meses</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🏠</div>
+                                <div class="info-label">Uso:</div>
+                                <div class="info-value">Temporal no vacacional, por motivos de trabajo, estudios, traslado...</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🛎️</div>
+                                <div class="info-label">Servicios:</div>
+                                <div class="info-value">Generalmente no incluye servicios hoteleros</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🧾</div>
+                                <div class="info-label">Fiscalidad:</div>
+                                <div class="info-value">No sujeto a IVA (si es para vivienda temporal sin servicios) | Sujeto a IRPF o IS</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">📜</div>
+                                <div class="info-label">Normativa:</div>
+                                <div class="info-value">Puede regirse por la LAU, art. 3. Contrato de arrendamiento de uso distinto de vivienda</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rental-card larga">
+                        <div class="card-header">
+                            <div class="card-icon">🏡</div>
+                            <div>
+                                <div class="card-title">Alquiler Larga Duración</div>
+                                <div class="card-subtitle">Long-Term Rental</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-row">
+                                <div class="info-icon">⏱️</div>
+                                <div class="info-label">Duración:</div>
+                                <div class="info-value">Mínimo 6 meses, contrato de 1 año prorrogable hasta 5</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🏠</div>
+                                <div class="info-label">Uso:</div>
+                                <div class="info-value">Residencia habitual y permanente del inquilino</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🛎️</div>
+                                <div class="info-label">Servicios:</div>
+                                <div class="info-value">No se prestan servicios; vivienda vacía o amueblada sin más</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">🧾</div>
+                                <div class="info-label">Fiscalidad:</div>
+                                <div class="info-value">Exento de IVA (vivienda habitual) | Sujeto a IRPF o IS</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-icon">📜</div>
+                                <div class="info-label">Normativa:</div>
+                                <div class="info-value">LAU, título II (arrendamientos de vivienda habitual). Fianza de un mes, registro del contrato</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ccaa" class="tab-content hidden">
+                <h2>Normativa por Comunidad Autónoma</h2>
+                <p>Umbral de duración para considerar un alquiler como turístico:</p>
+                <div class="ccaa-grid">
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Cataluña</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">31 días</span> → siempre considerado turístico</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Madrid</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">90 días</span> → considerado turístico si hay publicidad y fines vacacionales</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Comunidad Valenciana</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">2 meses</span> → se presume turístico si hay reiteración y finalidad vacacional</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Islas Baleares</div>
+                        <div class="ccaa-rule"><span class="highlight">Cualquier duración</span> → si se alquila a turistas, se considera turístico</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Canarias</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">2 meses</span> → se presume turístico salvo prueba en contrario</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Andalucía</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">2 meses</span> → se presume turístico si hay promoción en canales turísticos</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">Galicia</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">30 días</span> → se presume turístico si hay finalidad vacacional y promoción</div>
+                    </div>
+                    <div class="ccaa-card">
+                        <div class="ccaa-name">País Vasco</div>
+                        <div class="ccaa-rule">Menos de <span class="highlight">2 meses</span> → se requiere registro como alojamiento turístico</div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; padding: 20px; background: #e8f4f8; border-radius: 10px;">
+                    <h3>🔑 Claves comunes en estas CCAA:</h3>
+                    <ul style="margin-top: 15px; line-height: 1.6;">
+                        <li><strong>Finalidad vacacional</strong> + <strong>promoción pública</strong> (Airbnb, Booking, etc.) + <strong>reiteración</strong> = alquiler turístico</li>
+                        <li>Aunque la estancia sea más larga, si se ofrecen servicios propios del sector turístico o se anuncia como tal, también puede considerarse STR</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="calculator" class="tab-content hidden">
+                <h2>🧮 Calculadora de Tipo de Alquiler</h2>
+                <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 25px;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">Duración del alquiler (días):</label>
+                        <input type="number" id="duration" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;" placeholder="Ej: 45">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">Finalidad del alquiler:</label>
+                        <select id="purpose" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="">Seleccionar...</option>
+                            <option value="vacacional">Vacacional / Ocio</option>
+                            <option value="trabajo">Trabajo / Estudios</option>
+                            <option value="residencia">Residencia habitual</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">¿Se ofrecen servicios hoteleros?</label>
+                        <select id="services" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="">Seleccionar...</option>
+                            <option value="si">Sí (limpieza, amenities, etc.)</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: bold;">Comunidad Autónoma:</label>
+                        <select id="ccaa" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
+                            <option value="">Seleccionar...</option>
+                            <option value="cataluña">Cataluña</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="valencia">Comunidad Valenciana</option>
+                            <option value="baleares">Islas Baleares</option>
+                            <option value="canarias">Canarias</option>
+                            <option value="andalucia">Andalucía</option>
+                            <option value="galicia">Galicia</option>
+                            <option value="pais_vasco">País Vasco</option>
+                            <option value="otra">Otra</option>
+                        </select>
+                    </div>
+                    <button onclick="calculateRentalType()" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; font-weight: bold;">
+                        Calcular Tipo de Alquiler
+                    </button>
+                </div>
+                <div id="result" style="display: none; padding: 25px; border-radius: 15px; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.remove('hidden');
+            
+            // Update active tab
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function calculateRentalType() {
+            const duration = parseInt(document.getElementById('duration').value);
+            const purpose = document.getElementById('purpose').value;
+            const services = document.getElementById('services').value;
+            const ccaa = document.getElementById('ccaa').value;
+            
+            if (!duration || !purpose || !services || !ccaa) {
+                alert('Por favor, complete todos los campos');
+                return;
+            }
+            
+            let result = '';
+            let resultClass = '';
+            let fiscalInfo = '';
+            
+            // Determine rental type based on criteria
+            if (purpose === 'vacacional') {
+                result = '🟦 Alquiler Turístico';
+                resultClass = 'turismo';
+                fiscalInfo = services === 'si' ? 'IVA 10%' : 'No sujeto a IVA';
+            } else if (purpose === 'residencia' && duration >= 365) {
+                result = '🟩 Alquiler de Larga Duración';
+                resultClass = 'larga';
+                fiscalInfo = 'Exento de IVA';
+            } else if (duration <= 31 && ccaa !== 'otra') {
+                // Check specific CCAA rules
+                const ccaaRules = {
+                    'cataluña': 31,
+                    'madrid': 90,
+                    'valencia': 60,
+                    'baleares': 0, // Any duration can be tourist
+                    'canarias': 60,
+                    'andalucia': 60,
+                    'galicia': 30,
+                    'pais_vasco': 60
+                };
+                
+                if (duration <= ccaaRules[ccaa]) {
+                    result = '🟦 Alquiler Turístico (Por normativa autonómica)';
+                    resultClass = 'turismo';
+                    fiscalInfo = services === 'si' ? 'IVA 10%' : 'No sujeto a IVA';
+                } else {
+                    result = '🟨 Alquiler de Media Estancia';
+                    resultClass = 'media';
+                    fiscalInfo = 'No sujeto a IVA';
+                }
+            } else if (duration >= 32 && duration <= 330) {
+                result = '🟨 Alquiler de Media Estancia';
+                resultClass = 'media';
+                fiscalInfo = 'No sujeto a IVA';
+            } else if (duration >= 365) {
+                result = '🟩 Alquiler de Larga Duración';
+                resultClass = 'larga';
+                fiscalInfo = 'Exento de IVA';
+            } else {
+                result = '🟨 Alquiler de Media Estancia';
+                resultClass = 'media';
+                fiscalInfo = 'No sujeto a IVA';
+            }
+            
+            // Show result
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = `rental-card ${resultClass}`;
+            resultDiv.innerHTML = `
+                <h3>${result}</h3>
+                <div style="margin-top: 15px;">
+                    <strong>Duración:</strong> ${duration} días<br>
+                    <strong>Finalidad:</strong> ${purpose}<br>
+                    <strong>Servicios:</strong> ${services === 'si' ? 'Sí' : 'No'}<br>
+                    <strong>CCAA:</strong> ${ccaa}<br>
+                    <strong>Fiscalidad:</strong> ${fiscalInfo}
+                </div>
+            `;
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.rental-card, .ccaa-card');
+            const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
