@@ -371,7 +371,7 @@
 
                 <!-- Culture Section -->
                 <section class="section" id="culture">
-                    <h2 class="section-title">🧠 GuestReady Culture & Strategic Focus</h2>
+                    <h2 class="section-title">🧠 Culture & Strategic Focus</h2>
                     <div class="terms-grid" id="cultureGrid"></div>
                 </section>
 
@@ -381,10 +381,10 @@
                     <div class="terms-grid" id="techGrid"></div>
                 </section>
 
-                <!-- Tom's Phrases Section -->
-                <section class="section" id="tom-phrases">
-                    <h2 class="section-title">📈 Tom Auster's Key Phrases</h2>
-                    <div class="terms-grid" id="tomGrid"></div>
+                <!-- Phrases Section -->
+                <section class="section" id="phrases">
+                    <h2 class="section-title">📈 Key Phrases</h2>
+                    <div class="terms-grid" id="phrasesGrid"></div>
                 </section>
             </div>
         </main>
@@ -483,7 +483,7 @@
                 },
                 {
                     term: "Tech-Enabled Operations",
-                    definition: "Refers to GuestReady's proprietary tools (like GuestReady Dashboard) that power automation.",
+                    definition: "Refers to the proprietary tools that power automation.",
                     category: "operational"
                 },
                 {
@@ -525,7 +525,7 @@
                 },
                 {
                     term: "Standardization Across Markets",
-                    definition: "One of Tom's key challenges — reconciling local ops with global strategy.",
+                    definition: "A key challenge — reconciling local ops with global strategy.",
                     category: "culture"
                 },
                 {
@@ -577,7 +577,7 @@
                 },
                 {
                     term: "Integration with OTA APIs",
-                    definition: "GuestReady pulls data directly from Airbnb, Booking.com etc. for live updates.",
+                    definition: "PMS pulls data directly from Airbnb, Booking.com etc. for live updates.",
                     category: "tech"
                 },
                 {
@@ -586,36 +586,36 @@
                     category: "tech"
                 }
             ],
-            tom: [
+            phrases: [
                 {
                     term: "How do we improve our gross margin across cities?",
                     definition: "Expect this to be a top concern.",
-                    category: "tom"
+                    category: "phrases"
                 },
                 {
                     term: "What's the health of our portfolio in [city]?",
                     definition: "A test of your local operational insight.",
-                    category: "tom"
+                    category: "phrases"
                 },
                 {
                     term: "How do we scale without increasing our cost base linearly?",
                     definition: "Key CFO mindset — prove understanding of operational leverage.",
-                    category: "tom"
+                    category: "phrases"
                 },
                 {
                     term: "We need tighter reporting around cleaning and logistics costs.",
                     definition: "A recurring pain point.",
-                    category: "tom"
+                    category: "phrases"
                 },
                 {
                     term: "Can we automate this process further without compromising quality?",
                     definition: "Classic tech-CFO convergence.",
-                    category: "tom"
+                    category: "phrases"
                 },
                 {
                     term: "What's the lifetime value of a property we acquire in Madrid?",
                     definition: "Expect LTV vs CAC type of discussion.",
-                    category: "tom"
+                    category: "phrases"
                 }
             ]
         };
@@ -641,7 +641,7 @@
             renderSection('operational', 'operationalGrid');
             renderSection('culture', 'cultureGrid');
             renderSection('tech', 'techGrid');
-            renderSection('tom', 'tomGrid');
+            renderSection('phrases', 'phrasesGrid');
         }
 
         // Render a specific section
@@ -659,7 +659,7 @@
                 operational: 'Operations',
                 culture: 'Strategy',
                 tech: 'Tech',
-                tom: 'Leadership'
+                phrases: 'Leadership'
             };
 
             return `
