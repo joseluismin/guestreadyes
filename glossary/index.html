@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuestReady Glossary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6rem 0 2rem 0;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-content {
+            padding: 0 1.5rem;
+        }
+
+        .sidebar h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .category-nav {
+            list-style: none;
+        }
+
+        .category-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .category-nav a:hover,
+        .category-nav a.active {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .stats {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 6rem 2rem 2rem 2rem;
+            max-width: calc(100% - 280px);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .term-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .term-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .term-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .term-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .term-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-container {
+                margin: 0;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 5rem 1rem 1rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .term-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .term-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    🏠 GuestReady Glossary
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar términos, definiciones..." id="searchInput">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-content">
+                <h3>Categorías</h3>
+                <ul class="category-nav">
+                    <li><a href="#financial" class="category-link active">💰 Financial & Strategic</a></li>
+                    <li><a href="#operational" class="category-link">⚙️ Operational & Performance</a></li>
+                    <li><a href="#culture" class="category-link">🧠 Culture & Strategy</a></li>
+                    <li><a href="#tech" class="category-link">🔧 Tech & Product</a></li>
+                    <li><a href="#tom-phrases" class="category-link">📈 Tom's Phrases</a></li>
+                </ul>
+                
+                <div class="stats">
+                    <span class="stats-number" id="totalTerms">0</span>
+                    <div class="stats-label">Total Terms</div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="searchResults" class="hidden">
+                <div class="section">
+                    <h2 class="section-title">🔍 Resultados de búsqueda</h2>
+                    <div class="terms-grid" id="searchGrid"></div>
+                </div>
+            </div>
+
+            <div id="allSections">
+                <!-- Financial & Strategic Section -->
+                <section class="section" id="financial">
+                    <h2 class="section-title">💰 Core Financial & Strategic Jargon</h2>
+                    <div class="terms-grid" id="financialGrid"></div>
+                </section>
+
+                <!-- Operational Section -->
+                <section class="section" id="operational">
+                    <h2 class="section-title">⚙️ Operational & Performance Language</h2>
+                    <div class="terms-grid" id="operationalGrid"></div>
+                </section>
+
+                <!-- Culture Section -->
+                <section class="section" id="culture">
+                    <h2 class="section-title">🧠 GuestReady Culture & Strategic Focus</h2>
+                    <div class="terms-grid" id="cultureGrid"></div>
+                </section>
+
+                <!-- Tech Section -->
+                <section class="section" id="tech">
+                    <h2 class="section-title">🔧 Tech & Product Terms</h2>
+                    <div class="terms-grid" id="techGrid"></div>
+                </section>
+
+                <!-- Tom's Phrases Section -->
+                <section class="section" id="tom-phrases">
+                    <h2 class="section-title">📈 Tom Auster's Key Phrases</h2>
+                    <div class="terms-grid" id="tomGrid"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Data structure
+        const glossaryData = {
+            financial: [
+                {
+                    term: "GMV (Gross Merchandise Value)",
+                    definition: "Total booking value across all platforms before fees. Key metric tracked weekly.",
+                    category: "financial"
+                },
+                {
+                    term: "Net Revenue",
+                    definition: "Revenue after deducting booking platform fees and refunds. Often synonymous with \"take rate\" from GMV.",
+                    category: "financial"
+                },
+                {
+                    term: "Take Rate",
+                    definition: "Company revenue as a percentage of GMV. Used to benchmark performance across countries.",
+                    category: "financial"
+                },
+                {
+                    term: "Unit Economics",
+                    definition: "Cost and revenue structure per property (or booking). Important to demonstrate profitability at scale.",
+                    category: "financial"
+                },
+                {
+                    term: "Contribution Margin",
+                    definition: "Margin after direct costs (e.g. cleaning, operations). Key for evaluating scalability.",
+                    category: "financial"
+                },
+                {
+                    term: "EBITDA-positive City",
+                    definition: "A city-level operation that generates positive EBITDA. Often used as a success marker.",
+                    category: "financial"
+                },
+                {
+                    term: "Monthly Recurring Revenue (MRR)",
+                    definition: "Revenue from ongoing property management contracts. Highly valued for forecasting.",
+                    category: "financial"
+                },
+                {
+                    term: "Average Daily Rate (ADR)",
+                    definition: "Average price per night. Key performance indicator tied to yield strategy.",
+                    category: "financial"
+                },
+                {
+                    term: "Occupancy Rate",
+                    definition: "% of booked nights vs. available nights. Often optimized by pricing algorithms.",
+                    category: "financial"
+                },
+                {
+                    term: "RevPAR (Revenue per Available Rental)",
+                    definition: "Combines ADR and occupancy to assess asset performance.",
+                    category: "financial"
+                },
+                {
+                    term: "Cash Burn / Runway",
+                    definition: "Especially relevant when discussing company resilience or investment plans.",
+                    category: "financial"
+                },
+                {
+                    term: "Marketplace Balance",
+                    definition: "Describes the equilibrium between supply (properties) and demand (guests).",
+                    category: "financial"
+                }
+            ],
+            operational: [
+                {
+                    term: "Turnover Management",
+                    definition: "Coordination of check-outs, cleaning, and check-ins. Central to operational efficiency.",
+                    category: "operational"
+                },
+                {
+                    term: "Back-to-Back Booking",
+                    definition: "When a guest checks out and another checks in the same day. Operationally complex.",
+                    category: "operational"
+                },
+                {
+                    term: "Fail Rate",
+                    definition: "% of operations (cleanings, check-ins) that don't meet standards. Critical KPI.",
+                    category: "operational"
+                },
+                {
+                    term: "Guest Experience Score (GEX)",
+                    definition: "Internal index based on guest reviews and incidents.",
+                    category: "operational"
+                },
+                {
+                    term: "Owner Satisfaction (NPS for Owners)",
+                    definition: "Net Promoter Score variant measuring landlord satisfaction.",
+                    category: "operational"
+                },
+                {
+                    term: "Tech-Enabled Operations",
+                    definition: "Refers to GuestReady's proprietary tools (like GuestReady Dashboard) that power automation.",
+                    category: "operational"
+                },
+                {
+                    term: "Dynamic Pricing",
+                    definition: "Use of tools like Beyond or PriceLabs to adjust nightly rates in real-time.",
+                    category: "operational"
+                },
+                {
+                    term: "Mid-Stay Cleaning",
+                    definition: "Optional service for longer stays. Also impacts operational costs.",
+                    category: "operational"
+                },
+                {
+                    term: "Check-in Method (Smartlock vs Meet & Greet)",
+                    definition: "Important for scalability and margin optimization.",
+                    category: "operational"
+                }
+            ],
+            culture: [
+                {
+                    term: "Tech-First Property Management",
+                    definition: "GuestReady's core positioning: automation and scalability through proprietary tools.",
+                    category: "culture"
+                },
+                {
+                    term: "Local Market Expertise",
+                    definition: "Emphasizes country/city-level knowledge for pricing and compliance.",
+                    category: "culture"
+                },
+                {
+                    term: "Operational Leverage",
+                    definition: "Scaling revenues faster than operational costs.",
+                    category: "culture"
+                },
+                {
+                    term: "Owner Retention",
+                    definition: "Strategic priority: keeping landlords long-term, key to profitability.",
+                    category: "culture"
+                },
+                {
+                    term: "Standardization Across Markets",
+                    definition: "One of Tom's key challenges — reconciling local ops with global strategy.",
+                    category: "culture"
+                },
+                {
+                    term: "Scalable SOPs (Standard Operating Procedures)",
+                    definition: "Processes designed to work at scale. Crucial for margin control.",
+                    category: "culture"
+                },
+                {
+                    term: "Full-Service Offering",
+                    definition: "Refers to the complete package (listing, cleaning, pricing, guest comms, etc.).",
+                    category: "culture"
+                },
+                {
+                    term: "Owner Acquisition vs. Onboarding",
+                    definition: "Acquisition = marketing/sales effort, Onboarding = operations setup.",
+                    category: "culture"
+                },
+                {
+                    term: "Cross-Listing Optimization",
+                    definition: "Ensuring properties are visible on Airbnb, Booking.com, Vrbo, etc., without overbooking risk.",
+                    category: "culture"
+                }
+            ],
+            tech: [
+                {
+                    term: "GuestReady Dashboard",
+                    definition: "Internal platform used for property management, bookings, reporting.",
+                    category: "tech"
+                },
+                {
+                    term: "Automation Layer",
+                    definition: "Code-driven operations: auto-messaging, check-in flows, performance reports.",
+                    category: "tech"
+                },
+                {
+                    term: "Tech Debt",
+                    definition: "Refers to product features or architecture needing rework. Relevant in CFO/Product alignment.",
+                    category: "tech"
+                },
+                {
+                    term: "Data-Driven Decisions",
+                    definition: "Key internal mantra; finance team pushes this across all departments.",
+                    category: "tech"
+                },
+                {
+                    term: "Reporting Engine",
+                    definition: "Internal tool or framework used to generate performance dashboards.",
+                    category: "tech"
+                },
+                {
+                    term: "Integration with OTA APIs",
+                    definition: "GuestReady pulls data directly from Airbnb, Booking.com etc. for live updates.",
+                    category: "tech"
+                },
+                {
+                    term: "Forecasting Module",
+                    definition: "Used by finance to project GMV, revenue, and margins by city or cluster.",
+                    category: "tech"
+                }
+            ],
+            tom: [
+                {
+                    term: "How do we improve our gross margin across cities?",
+                    definition: "Expect this to be a top concern.",
+                    category: "tom"
+                },
+                {
+                    term: "What's the health of our portfolio in [city]?",
+                    definition: "A test of your local operational insight.",
+                    category: "tom"
+                },
+                {
+                    term: "How do we scale without increasing our cost base linearly?",
+                    definition: "Key CFO mindset — prove understanding of operational leverage.",
+                    category: "tom"
+                },
+                {
+                    term: "We need tighter reporting around cleaning and logistics costs.",
+                    definition: "A recurring pain point.",
+                    category: "tom"
+                },
+                {
+                    term: "Can we automate this process further without compromising quality?",
+                    definition: "Classic tech-CFO convergence.",
+                    category: "tom"
+                },
+                {
+                    term: "What's the lifetime value of a property we acquire in Madrid?",
+                    definition: "Expect LTV vs CAC type of discussion.",
+                    category: "tom"
+                }
+            ]
+        };
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchGrid = document.getElementById('searchGrid');
+        const allSections = document.getElementById('allSections');
+        const categoryLinks = document.querySelectorAll('.category-link');
+        const totalTermsElement = document.getElementById('totalTerms');
+
+        // Initialize app
+        function init() {
+            renderAllSections();
+            updateTotalTerms();
+            setupEventListeners();
+        }
+
+        // Render all sections
+        function renderAllSections() {
+            renderSection('financial', 'financialGrid');
+            renderSection('operational', 'operationalGrid');
+            renderSection('culture', 'cultureGrid');
+            renderSection('tech', 'techGrid');
+            renderSection('tom', 'tomGrid');
+        }
+
+        // Render a specific section
+        function renderSection(dataKey, gridId) {
+            const grid = document.getElementById(gridId);
+            const data = glossaryData[dataKey];
+            
+            grid.innerHTML = data.map(item => createTermCard(item)).join('');
+        }
+
+        // Create term card HTML
+        function createTermCard(item) {
+            const badges = {
+                financial: 'Financial',
+                operational: 'Operations',
+                culture: 'Strategy',
+                tech: 'Tech',
+                tom: 'Leadership'
+            };
+
+            return `
+                <div class="term-card">
+                    <div class="term-name">
+                        <span>${item.term}</span>
+                        <span class="term-badge">${badges[item.category]}</span>
+                    </div>
+                    <div class="term-description">${item.definition}</div>
+                </div>
+            `;
+        }
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query.trim()) {
+                searchResults.classList.add('hidden');
+                allSections.classList.remove('hidden');
+                return;
+            }
+
+            const results = [];
+            const lowerQuery = query.toLowerCase();
+
+            // Search through all data
+            Object.values(glossaryData).forEach(section => {
+                section.forEach(item => {
+                    if (item.term.toLowerCase().includes(lowerQuery) || 
+                        item.definition.toLowerCase().includes(lowerQuery)) {
+                        results.push(item);
+                    }
+                });
+            });
+
+            if (results.length > 0) {
+                searchGrid.innerHTML = results.map(item => createTermCard(item)).join('');
+                searchResults.classList.remove('hidden');
+                allSections.classList.add('hidden');
+            } else {
+                searchGrid.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <div>No se encontraron resultados para "${query}"</div>
+                        <div style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.9rem;">
+                            Prueba con otros términos o navega por las categorías
+                        </div>
+                    </div>
+                `;
+                searchResults.classList.remove('hidden');
+                allSections.classList.add('hidden');
+            }
+        }
+
+        // Update total terms count
+        function updateTotalTerms() {
+            const total = Object.values(glossaryData).reduce((sum, section) => sum + section.length, 0);
+            totalTermsElement.textContent = total;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            searchInput.addEventListener('input', (e) => {
+                performSearch(e.target.value);
+            });
+
+            // Category navigation
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Clear search
+                    searchInput.value = '';
+                    searchResults.classList.add('hidden');
+                    allSections.classList.remove('hidden');
+                    
+                    // Update active state
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Scroll to section
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && e.target !== searchInput) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                if (e.key === 'Escape' && searchInput.value) {
+                    searchInput.value = '';
+                    searchResults.classList.add('hidden');
+                    allSections.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
