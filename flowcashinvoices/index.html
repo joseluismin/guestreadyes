@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujos Monetarios y de Facturación - GuestReady</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step-connector {
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 50px; /* Ancho de la flecha */
+            height: 2px;
+            background-color: #9ca3af;
+            transform: translateY(-50%);
+        }
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            border: solid #9ca3af;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 4px;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+        .invoice-arrow {
+            position: relative;
+            padding-right: 25px;
+        }
+        .invoice-arrow::after {
+            content: '→';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Visualizador de Flujos de GuestReady</h1>
+            <p class="text-md text-gray-600 mt-2">Una consulta ágil e interactiva de los flujos monetarios y de facturación.</p>
+        </header>
+
+        <!-- Pestañas de Navegación -->
+        <div class="mb-8 border-b border-gray-200">
+            <nav class="flex space-x-4" aria-label="Tabs">
+                <button id="tab-money" onclick="switchTab('money')" class="tab-btn text-blue-600 border-blue-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Flujos Monetarios
+                </button>
+                <button id="tab-invoice" onclick="switchTab('invoice')" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Flujos de Facturación
+                </button>
+            </nav>
+        </div>
+
+        <!-- Contenido de Flujos Monetarios -->
+        <main id="content-money" class="tab-content">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">¿Cómo se mueve el dinero?</h2>
+                <p class="text-gray-600 mb-8">Sigue el rastro del dinero desde que el huésped paga hasta que el propietario recibe sus ganancias. Haz clic en cada paso para ver los detalles.</p>
+                
+                <h3 class="text-xl font-semibold text-gray-700 text-center mb-6">Flujo Principal de Ganancias</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-y-12 md:gap-x-20">
+                    <!-- Paso 1: Huésped paga a Plataforma -->
+                    <div class="step-container text-center relative" data-step="1">
+                        <div class="icon-bg bg-blue-100 p-4 rounded-full inline-block cursor-pointer border-2 border-transparent hover:border-blue-400 transition-all" onclick="toggleDetails(1)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                        </div>
+                        <p class="font-semibold mt-2">1. Huésped</p>
+                        <div class="step-connector hidden md:block"></div>
+                    </div>
+                    
+                    <!-- Paso 2: Plataforma -->
+                    <div class="step-container text-center relative" data-step="2">
+                        <div class="icon-bg bg-purple-100 p-4 rounded-full inline-block cursor-pointer border-2 border-transparent hover:border-purple-400 transition-all" onclick="toggleDetails(2)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                        </div>
+                        <p class="font-semibold mt-2">2. Plataforma</p>
+                        <div class="step-connector hidden md:block"></div>
+                    </div>
+
+                    <!-- Paso 3: GuestReady -->
+                    <div class="step-container text-center relative" data-step="3">
+                        <div class="icon-bg bg-green-100 p-4 rounded-full inline-block cursor-pointer border-2 border-transparent hover:border-green-400 transition-all" onclick="toggleDetails(3)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <p class="font-semibold mt-2">3. GuestReady</p>
+                        <div class="step-connector hidden md:block"></div>
+                    </div>
+
+                    <!-- Paso 4: Propietario -->
+                    <div class="step-container text-center relative" data-step="4">
+                        <div class="icon-bg bg-yellow-100 p-4 rounded-full inline-block cursor-pointer border-2 border-transparent hover:border-yellow-400 transition-all" onclick="toggleDetails(4)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                        </div>
+                        <p class="font-semibold mt-2">4. Propietario</p>
+                    </div>
+                </div>
+
+                <!-- Flujo secundario de pago a proveedores -->
+                <div class="mt-12 pt-8 border-t-2 border-dashed">
+                    <h3 class="text-xl font-semibold text-gray-700 text-center mb-6">Flujo Secundario: Pago a Proveedores</h3>
+                    <div class="flex justify-center items-center gap-x-6 md:gap-x-12">
+                        <div class="text-center">
+                            <div class="icon-bg bg-green-100 p-4 rounded-full inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            </div>
+                            <p class="font-semibold mt-2">GuestReady</p>
+                        </div>
+                        <div class="text-4xl font-light text-gray-400">→</div>
+                        <div class="step-container text-center" data-step="5">
+                            <div class="icon-bg bg-red-100 p-4 rounded-full inline-block cursor-pointer border-2 border-transparent hover:border-red-400 transition-all" onclick="toggleDetails(5)">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            </div>
+                            <p class="font-semibold mt-2">5. Proveedores</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Detalles -->
+                <div id="details-container" class="mt-10">
+                    <div id="details-1" class="details-content hidden p-6 bg-blue-50 rounded-lg border border-blue-200">
+                        <h3 class="font-bold text-lg text-blue-800">1. Huésped paga a la Plataforma (Airbnb/Booking)</h3>
+                        <p class="mt-2">El huésped realiza la reserva y paga el importe íntegro a la plataforma.</p>
+                        <div class="mt-4 p-4 bg-white rounded-md shadow-sm">
+                            <p class="font-semibold">Ejemplo de desglose:</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-700">
+                                <li>Alquiler: <span class="font-mono">€900</span></li>
+                                <li>Tasa de limpieza: <span class="font-mono">€100</span></li>
+                                <li>Comisión de la plataforma: <span class="font-mono">€100</span></li>
+                                <li class="font-bold border-t pt-2 mt-2">Total pagado por el Huésped: <span class="font-mono">€1,100</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="details-2" class="details-content hidden p-6 bg-purple-50 rounded-lg border border-purple-200">
+                        <h3 class="font-bold text-lg text-purple-800">2. La Plataforma deduce su comisión y paga a GuestReady</h3>
+                        <p class="mt-2">La plataforma (ej. Airbnb) se queda con su comisión y transfiere el resto ("Host Payout") directamente a la cuenta de GuestReady, no a la del propietario.</p>
+                        <div class="mt-4 p-4 bg-white rounded-md shadow-sm">
+                            <p class="font-semibold">Ejemplo de cálculo:</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-700">
+                                <li>Total del Huésped: <span class="font-mono">€1,100</span></li>
+                                <li>(-) Comisión Airbnb: <span class="font-mono">€100</span></li>
+                                <li class="font-bold border-t pt-2 mt-2">Pago al Anfitrión (transferido a GuestReady): <span class="font-mono">€1,000</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="details-3" class="details-content hidden p-6 bg-green-50 rounded-lg border border-green-200">
+                        <h3 class="font-bold text-lg text-green-800">3. GuestReady deduce sus comisiones y costes</h3>
+                        <p class="mt-2">Del "Pago al Anfitrión", GuestReady retiene su comisión de gestión y otros costes asociados que haya adelantado.</p>
+                         <div class="mt-4 p-4 bg-white rounded-md shadow-sm">
+                            <p class="font-semibold">Ejemplo de deducciones:</p>
+                            <ul class="list-disc list-inside mt-2 text-gray-700">
+                                <li>Pago recibido de la plataforma: <span class="font-mono">€1,000</span></li>
+                                <li>(-) Comisión GuestReady (ej. 20%): <span class="font-mono">€200</span></li>
+                                <li>(-) Costes (limpieza, extras, etc.): <span class="font-mono">€100</span></li>
+                                <li class="font-bold border-t pt-2 mt-2">Cantidad neta a transferir al Propietario: <span class="font-mono">€700</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="details-4" class="details-content hidden p-6 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <h3 class="font-bold text-lg text-yellow-800">4. GuestReady transfiere las ganancias al Propietario</h3>
+                        <p class="mt-2">La cantidad neta final se transfiere al propietario, generalmente de forma mensual, junto con un extracto detallado de ingresos y gastos.</p>
+                    </div>
+                    <div id="details-5" class="details-content hidden p-6 bg-red-50 rounded-lg border border-red-200">
+                        <h3 class="font-bold text-lg text-red-800">5. GuestReady paga a los Proveedores de Servicios</h3>
+                        <p class="mt-2">De forma independiente, GuestReady utiliza su propio flujo de caja para pagar a los proveedores (limpieza, mantenimiento, lavandería, etc.), quienes emiten sus facturas directamente a GuestReady. Este pago no afecta directamente al flujo de ganancias del propietario, ya que los costes asociados ya se han deducido en el paso 3.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Contenido de Flujos de Facturación -->
+        <main id="content-invoice" class="tab-content hidden">
+             <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-2xl font-semibold mb-2 text-gray-800">¿Quién factura a quién?</h2>
+                <p class="text-gray-600 mb-8">El flujo de facturas es legalmente distinto al flujo de dinero. Aquí se muestra la relación de facturación correcta entre las partes.</p>
+                
+                <div class="space-y-6">
+                    <!-- Factura 1 -->
+                    <div class="flow-item grid md:grid-cols-3 gap-4 items-center p-4 bg-gray-50 rounded-lg">
+                        <div class="issuer flex items-center space-x-3">
+                            <div class="icon-bg bg-yellow-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div>
+                            <span class="font-semibold">Propietario</span>
+                        </div>
+                        <div class="arrow text-center invoice-arrow">
+                            <span class="text-sm text-gray-500">emite factura a</span>
+                        </div>
+                        <div class="recipient flex items-center space-x-3">
+                            <div class="icon-bg bg-blue-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg></div>
+                            <span class="font-semibold">Huésped</span>
+                        </div>
+                        <div class="md:col-span-3 mt-2 text-sm text-gray-600 pl-4 border-l-2 border-blue-500">
+                            <strong>Concepto:</strong> Factura completa de la estancia (alquiler + limpieza). Es la factura oficial de la venta del servicio de alojamiento. Puede ser generada por GuestReady en nombre del propietario.
+                        </div>
+                    </div>
+
+                    <!-- Factura 2 -->
+                    <div class="flow-item grid md:grid-cols-3 gap-4 items-center p-4 bg-gray-50 rounded-lg">
+                        <div class="issuer flex items-center space-x-3">
+                            <div class="icon-bg bg-green-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                            <span class="font-semibold">GuestReady</span>
+                        </div>
+                        <div class="arrow text-center invoice-arrow">
+                             <span class="text-sm text-gray-500">emite factura a</span>
+                        </div>
+                        <div class="recipient flex items-center space-x-3">
+                            <div class="icon-bg bg-yellow-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div>
+                            <span class="font-semibold">Propietario</span>
+                        </div>
+                         <div class="md:col-span-3 mt-2 text-sm text-gray-600 pl-4 border-l-2 border-green-500">
+                            <strong>Concepto:</strong> Comisión de gestión y otros servicios opcionales (limpieza, fotografía, etc.). Corresponde a las deducciones que GuestReady aplica sobre el pago del anfitrión.
+                        </div>
+                    </div>
+                    
+                    <!-- Factura 3 -->
+                    <div class="flow-item grid md:grid-cols-3 gap-4 items-center p-4 bg-gray-50 rounded-lg">
+                        <div class="issuer flex items-center space-x-3">
+                            <div class="icon-bg bg-red-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg></div>
+                            <span class="font-semibold">Proveedores</span>
+                        </div>
+                        <div class="arrow text-center invoice-arrow">
+                             <span class="text-sm text-gray-500">emiten factura a</span>
+                        </div>
+                        <div class="recipient flex items-center space-x-3">
+                            <div class="icon-bg bg-green-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                            <span class="font-semibold">GuestReady</span>
+                        </div>
+                         <div class="md:col-span-3 mt-2 text-sm text-gray-600 pl-4 border-l-2 border-red-500">
+                            <strong>Concepto:</strong> Facturas B2B por servicios prestados (limpieza, mantenimiento, etc.).
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </main>
+    </div>
+
+    <script>
+        // --- Lógica para el cambio de pestañas ---
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.classList.remove('text-blue-600', 'border-blue-600');
+                tab.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+            });
+
+            contents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            activeTab.classList.add('text-blue-600', 'border-blue-600');
+            activeTab.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+            
+            const activeContent = document.getElementById(`content-${tabName}`);
+            activeContent.classList.remove('hidden');
+        }
+
+        // --- Lógica para mostrar/ocultar detalles en Flujos Monetarios ---
+        let activeStep = null;
+
+        function toggleDetails(step) {
+            const allDetails = document.querySelectorAll('.details-content');
+            const targetDetails = document.getElementById(`details-${step}`);
+            const allIcons = document.querySelectorAll('.icon-bg');
+            // Busca el icono en cualquiera de las dos secciones de flujo
+            const targetIconContainer = document.querySelector(`.step-container[data-step="${step}"] .icon-bg`);
+
+            // Si se hace clic en el paso ya activo, se oculta
+            if (activeStep === step) {
+                targetDetails.classList.add('hidden');
+                targetIconContainer.classList.remove('border-blue-400', 'border-purple-400', 'border-green-400', 'border-yellow-400', 'border-red-400', 'ring-4', 'ring-blue-200', 'ring-purple-200', 'ring-green-200', 'ring-yellow-200', 'ring-red-200');
+                activeStep = null;
+                return;
+            }
+
+            // Ocultar todos los detalles y quitar estilos de todos los iconos
+            allDetails.forEach(detail => detail.classList.add('hidden'));
+            allIcons.forEach(icon => icon.classList.remove('border-blue-400', 'border-purple-400', 'border-green-400', 'border-yellow-400', 'border-red-400', 'ring-4', 'ring-blue-200', 'ring-purple-200', 'ring-green-200', 'ring-yellow-200', 'ring-red-200'));
+            
+            // Mostrar el detalle del paso seleccionado y resaltar su icono
+            if (targetDetails) {
+                targetDetails.classList.remove('hidden');
+                
+                // Aplicar el color de borde correcto
+                const colors = {1: 'blue', 2: 'purple', 3: 'green', 4: 'yellow', 5: 'red'};
+                targetIconContainer.classList.add(`border-${colors[step]}-400`, `ring-4`, `ring-${colors[step]}-200`);
+                
+                activeStep = step;
+            }
+        }
+    </script>
+
+</body>
+</html>
