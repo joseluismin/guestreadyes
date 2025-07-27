@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Facturación Consolidada para Multipropietarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .flowchart-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            min-height: 80px;
+        }
+        .flowchart-arrow {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003F5C;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50" style="background-color: #F0F4F8;">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2" style="color: #003F5C;">Factura Recapitulativa: La Guía Definitiva</h1>
+            <p class="text-lg md:text-xl text-gray-600" style="color: #374C80;">Cómo simplificar la facturación para clientes multipropietarios cumpliendo la normativa española.</p>
+        </header>
+
+        <main>
+            <section id="problema" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-6" style="color: #003F5C;">1. El Desafío: De Múltiples Facturas a una Sola</h2>
+                <p class="text-center text-gray-700 max-w-3xl mx-auto mb-8">La gestión de múltiples propiedades para un solo cliente genera un volumen de facturación que puede ser complejo y poco práctico. El objetivo es claro: unificar todas las operaciones mensuales en un único documento de facturación recapitulativa.</p>
+                <div class="flex flex-col md:flex-row items-center justify-around text-center">
+                    <div class="mb-8 md:mb-0">
+                        <h3 class="text-xl font-semibold mb-2" style="color: #BC5090;">Situación Actual</h3>
+                        <div class="text-6xl mb-2">📄📄📄</div>
+                        <p class="font-bold text-lg" style="color: #003F5C;">Un cliente, múltiples propiedades</p>
+                        <p class="text-gray-600">Una factura por cada reserva</p>
+                    </div>
+                    <div class="text-5xl font-thin text-gray-400 mx-8 hidden md:block">➡️</div>
+                     <div class="text-4xl font-thin text-gray-400 my-4 md:hidden">⬇️</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2" style="color: #FFA600;">Solución Deseada</h3>
+                        <div class="text-6xl mb-2">🧾</div>
+                        <p class="font-bold text-lg" style="color: #003F5C;">Un cliente, múltiples propiedades</p>
+                        <p class="text-gray-600">Una única factura mensual</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solucion" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-2" style="color: #003F5C;">2. La Solución Legal: La Factura Recapitulativa</h2>
+                <div class="text-center text-8xl font-bold my-4" style="color: #4CAF50;">SÍ, ES POSIBLE</div>
+                <p class="text-center text-gray-700 max-w-3xl mx-auto">La normativa española (Art. 13 del RD 1619/2012) permite agrupar varias operaciones en una sola factura, conocida como "factura recapitulativa". Para ello, es imprescindible cumplir tres reglas de oro.</p>
+            </section>
+
+            <section id="reglas" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #003F5C;">3. Las 3 Reglas de Oro</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="border-2 border-dashed p-6 rounded-lg" style="border-color: #7A5195;">
+                        <div class="text-5xl mb-4">👤</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: #7A5195;">Mismo Destinatario</h3>
+                        <p class="text-gray-600">Todas las operaciones deben corresponder a un único cliente.</p>
+                    </div>
+                    <div class="border-2 border-dashed p-6 rounded-lg" style="border-color: #EF5675;">
+                        <div class="text-5xl mb-4">📅</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: #EF5675;">Mismo Mes Natural</h3>
+                        <p class="text-gray-600">Solo se pueden agrupar reservas efectuadas dentro del mismo mes.</p>
+                    </div>
+                    <div class="border-2 border-dashed p-6 rounded-lg" style="border-color: #FFA600;">
+                        <div class="text-5xl mb-4">⏰</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: #FFA600;">Plazo de Emisión</h3>
+                        <p class="text-gray-600">La fecha límite de emisión depende del tipo de cliente.</p>
+                    </div>
+                </div>
+                 <div class="mt-10">
+                    <h3 class="text-2xl font-bold text-center mb-6" style="color: #003F5C;">Plazos de Emisión: Una Distinción Clave</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="chart-container">
+                            <canvas id="clientTypeChart"></canvas>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 mb-4">La mayoría de los multipropietarios son considerados empresarios o profesionales. Esto ofrece una mayor flexibilidad en el plazo de emisión de la factura consolidada.</p>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-lg" style="background-color: #e6f3ff;">
+                                    <p class="font-bold" style="color: #003F5C;">Empresarios o Profesionales</p>
+                                    <p class="text-lg font-semibold" style="color: #374C80;">Hasta el día 16 del mes siguiente.</p>
+                                </div>
+                                <div class="p-4 rounded-lg" style="background-color: #fff0e6;">
+                                    <p class="font-bold" style="color: #BC5090;">Particulares</p>
+                                    <p class="text-lg font-semibold" style="color: #EF5675;">Hasta el último día del mes en curso.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contenido" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #003F5C;">4. Anatomía de una Factura Recapitulativa Perfecta</h2>
+                <p class="text-center text-gray-700 max-w-3xl mx-auto mb-8">Una factura recapitulativa no es un simple resumen. Debe contener un desglose exhaustivo para ser válida. La transparencia es fundamental.</p>
+                <div class="max-w-4xl mx-auto border-2 rounded-lg p-6" style="border-color: #374C80;">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold" style="color: #003F5C;">FACTURA RECAPITULATIVA</h3>
+                            <p class="text-gray-500">Nº: FR-2025-001</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-semibold">Fecha: 16/02/2025</p>
+                            <p class="font-semibold">Cliente: Nombre del Propietario</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left table-auto">
+                            <thead style="background-color: #e6f3ff; color: #003F5C;">
+                                <tr>
+                                    <th class="p-3">Propiedad</th>
+                                    <th class="p-3">Fechas Reserva</th>
+                                    <th class="p-3">Base Imponible</th>
+                                    <th class="p-3">Tipo IVA</th>
+                                    <th class="p-3">Cuota IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-3">Apartamento Sol, Ref: 123</td>
+                                    <td class="p-3">05/01 - 10/01</td>
+                                    <td class="p-3">500,00 €</td>
+                                    <td class="p-3">21%</td>
+                                    <td class="p-3">105,00 €</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3">Villa Mar, Ref: 456</td>
+                                    <td class="p-3">12/01 - 15/01</td>
+                                    <td class="p-3">450,00 €</td>
+                                    <td class="p-3">21%</td>
+                                    <td class="p-3">94,50 €</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3">Estudio Centro, Ref: 789</td>
+                                    <td class="p-3">20/01 - 22/01</td>
+                                    <td class="p-3">180,00 €</td>
+                                    <td class="p-3">21%</td>
+                                    <td class="p-3">37,80 €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 text-right">
+                        <p class="text-gray-600">Base Imponible (21%): <span class="font-bold">1.130,00 €</span></p>
+                        <p class="text-gray-600">Total IVA: <span class="font-bold">237,30 €</span></p>
+                        <p class="text-2xl font-bold mt-2" style="color: #003F5C;">TOTAL FACTURA: <span class="font-bold">1.367,30 €</span></p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="riesgos" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #003F5C;">5. Navegando los Riesgos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-gray-700 mb-4">Aunque la facturación consolidada es una gran ventaja, conlleva ciertos riesgos operativos que deben ser gestionados. La complejidad en caso de inspección es el principal factor a considerar, lo que exige un sistema de registro impecable.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li><span class="font-semibold" style="color: #7A5195;">Complejidad en Inspección:</span> Requiere justificar cada línea de la factura de forma individual.</li>
+                            <li><span class="font-semibold" style="color: #BC5090;">Errores de Cálculo de IVA:</span> Un desglose incorrecto de bases imponibles puede acarrear sanciones.</li>
+                            <li><span class="font-semibold" style="color: #EF5675;">Incumplimiento de Plazos:</span> Especialmente crítico para clientes particulares, puede ser sancionable.</li>
+                        </ul>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="plan" class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl font-bold text-center mb-8" style="color: #003F5C;">6. Plan de Acción Recomendado</h2>
+                <p class="text-center text-gray-700 max-w-3xl mx-auto mb-10">Para una implementación exitosa y segura, se recomienda seguir un proceso estructurado en cuatro fases clave.</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+                    <div class="flex flex-col items-center h-full">
+                        <div class="flowchart-step w-full" style="background-color: #e6f3ff; color: #003F5C;">1. Adaptar el Software de Facturación</div>
+                        <div class="flowchart-arrow">▼</div>
+                        <p class="text-sm text-gray-600 text-center px-2">Asegurar que el sistema puede generar facturas con el desglose requerido y gestionar series de numeración.</p>
+                    </div>
+                    <div class="flex flex-col items-center h-full">
+                        <div class="flowchart-step w-full" style="background-color: #e8eaf6; color: #374C80;">2. Formar al Equipo de Administración</div>
+                        <div class="flowchart-arrow">▼</div>
+                        <p class="text-sm text-gray-600 text-center px-2">Capacitar al personal sobre los requisitos legales, plazos y el uso del nuevo sistema.</p>
+                    </div>
+                    <div class="flex flex-col items-center h-full">
+                        <div class="flowchart-step w-full" style="background-color: #f3e5f5; color: #7A5195;">3. Actualizar los Contratos</div>
+                        <div class="flowchart-arrow">▼</div>
+                        <p class="text-sm text-gray-600 text-center px-2">Incluir una cláusula donde los clientes aceptan explícitamente la facturación recapitulativa mensual.</p>
+                    </div>
+                    <div class="flex flex-col items-center h-full">
+                        <div class="flowchart-step w-full" style="background-color: #fff3e0; color: #FFA600;">4. Implementar y Monitorizar</div>
+                        <div class="flowchart-arrow">✔</div>
+                        <p class="text-sm text-gray-600 text-center px-2">Poner en marcha el nuevo sistema y establecer controles para verificar la corrección de cada ciclo de facturación.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t" style="border-color: #7A5195;">
+            <p class="text-gray-600">Este documento es una infografía interpretativa basada en un informe legal. No constituye asesoramiento jurídico. Para decisiones específicas, consulte con un asesor fiscal.</p>
+            <p class="text-sm text-gray-400 mt-2">© 2025 GuestReady Solutions</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                const testLine = currentLine ? `${currentLine} ${word}` : word;
+                if (testLine.length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const brilliantBluesPalette = {
+            darkBlue: '#003F5C',
+            mediumBlue: '#374C80',
+            purple: '#7A5195',
+            magenta: '#BC5090',
+            pink: '#EF5675',
+            orange: '#FF764A',
+            yellow: '#FFA600'
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const clientTypeCtx = document.getElementById('clientTypeChart').getContext('2d');
+            new Chart(clientTypeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Empresarios / Profesionales', 'Particulares'],
+                    datasets: [{
+                        label: 'Tipo de Cliente',
+                        data: [85, 15],
+                        backgroundColor: [brilliantBluesPalette.mediumBlue, brilliantBluesPalette.pink],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribución Estimada de Clientes Multipropietarios',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: brilliantBluesPalette.darkBlue,
+                            padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            new Chart(riskCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Complejidad en Inspección', 'Errores de Cálculo de IVA', 'Incumplimiento de Plazos'],
+                    datasets: [{
+                        label: 'Nivel de Riesgo (Estimado)',
+                        data: [8, 7, 5],
+                        backgroundColor: [brilliantBluesPalette.purple, brilliantBluesPalette.magenta, brilliantBluesPalette.pink],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                           grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Nivel de Riesgo Operativo',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: brilliantBluesPalette.darkBlue,
+                            padding: {
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
