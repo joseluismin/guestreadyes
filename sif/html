@@ -1,0 +1,288 @@
+# Create an English version of the interactive HTML (mirror of the Spanish page)
+html_en = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual Guide to VERI*FACTU (Anti‑Fraud Law) • Invoicing Software in Spain</title>
+<meta name="description" content="Visual, interactive summary of Spain's SIF invoicing software rules (VERI*FACTU): obligations, deadlines, and a compliance checklist.">
+<style>
+  :root{
+    --bg:#0b1020;
+    --panel:#111835;
+    --panel-2:#0e1430;
+    --brand:#6ae3ff;
+    --accent:#7af0c4;
+    --warn:#ffd166;
+    --danger:#ff6b6b;
+    --ok:#28c76f;
+    --muted:#a9b4d0;
+    --text:#e7ecff;
+    --shadow: 0 10px 25px rgba(0,0,0,.35);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:radial-gradient(1200px 800px at 10% -5%, #1a2650 0%, #0b1020 55%), var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  header{padding:28px 20px 6px; max-width:1100px; margin:0 auto}
+  .h1{font-size:clamp(22px,4vw,34px); font-weight:750; letter-spacing:-.2px; display:flex; gap:10px; align-items:center}
+  .tag{font-size:12px; padding:4px 8px; border:1px solid #24305f; border-radius:999px; color:#cfe3ff; background:#0f1842}
+  .subtitle{color:var(--muted); margin-top:6px; font-size:14px}
+  .grid{display:grid; gap:16px; padding:16px; max-width:1100px; margin:0 auto}
+  @media(min-width:900px){ .grid{grid-template-columns: 1.1fr .9fr} }
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.02),transparent), var(--panel); border:1px solid #1f2a57; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+  .card h2{margin:0; padding:16px 16px 0; font-size:18px}
+  .card .content{padding:12px 16px 18px}
+  .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid #2a3a70; background:#0f1a44; color:#d9e6ff; font-size:12px}
+  .inline-list{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 2px}
+  .role-switch{display:flex; gap:8px; flex-wrap:wrap; padding:12px 16px; border-top:1px dashed #2a396a; background:var(--panel-2)}
+  .role-switch button{all:unset; cursor:pointer; padding:8px 12px; border-radius:10px; background:#101a44; border:1px solid #2a3a70; color:#cfe3ff; font-weight:600}
+  .role-switch button.active{background:linear-gradient(180deg,#15308a,#0f1d5e); border-color:#3b5bd1; color:white; box-shadow:0 6px 18px rgba(57,96,255,.25)}
+  .kpi{display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:10px; padding:14px 16px; border-top:1px dashed #2a396a; background:var(--panel-2)}
+  .kpi .box{background:#0e173d; border:1px solid #2a3a70; border-radius:12px; padding:12px}
+  .kpi .num{font-weight:800; font-size:20px}
+  .kpi .lbl{color:var(--muted); font-size:12px}
+  /* Timeline */
+  .timeline{position:relative; padding:22px 16px 26px}
+  .timeline:before{content:""; position:absolute; left:24px; top:22px; bottom:22px; width:3px; background:linear-gradient(180deg,#3a63ff33,transparent); border-radius:3px}
+  .tl-item{position:relative; margin-left:44px; padding-left:16px; padding-bottom:12px}
+  .tl-item .dot{position:absolute; left:-28px; top:2px; width:14px; height:14px; border-radius:50%; background:var(--brand); box-shadow:0 0 0 4px rgba(106,227,255,.18),0 0 0 9px rgba(106,227,255,.07)}
+  .tl-item h3{margin:.1rem 0 .2rem; font-size:16px}
+  .tl-item .date{font-size:12px; color:#a6b3d8}
+  .tl-item p{margin:.35rem 0 0; color:#ced8ff; font-size:14px}
+  .badge{font-size:11px; padding:2px 6px; border-radius:6px; border:1px solid #2a3a70; color:#b8c7ff; background:#0f1845}
+  /* Obligations list */
+  .oblig-list{display:grid; gap:10px}
+  .ob{background:#0e173d; border:1px solid #29366e; padding:12px; border-radius:12px}
+  .ob h4{margin:.2rem 0 .4rem; font-size:14px}
+  .ob p{margin:0; color:#cfd8ff; font-size:13.5px}
+  /* Checklist */
+  .checklist li{list-style:none; margin:0; padding:10px 12px; border:1px solid #2a3a70; border-radius:10px; display:flex; align-items:flex-start; gap:10px; background:#0e173d}
+  .checklist input{margin-top:2px; transform:scale(1.2)}
+  .checklist small{color:#9fb0da}
+  /* Glossary */
+  .glossary details{background:#0e173d; border:1px solid #29366e; border-radius:12px; padding:10px 12px; margin:8px 0}
+  .glossary summary{cursor:pointer; font-weight:700}
+  /* Footer */
+  footer{max-width:1100px; margin:16px auto 40px; padding:0 16px; color:#9fb0da}
+  .sources{display:grid; gap:8px; margin-top:8px}
+  .sources a{word-break:break-all}
+  .note{font-size:12px; color:#a9b4d0}
+  /* CTA bar */
+  .cta{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 16px; border-top:1px dashed #2a396a; background:var(--panel-2)}
+  .cta button{all:unset; cursor:pointer; font-weight:700; padding:10px 14px; border-radius:10px; border:1px solid #324891}
+  .cta .primary{background:#1b2f7a; color:white; border-color:#3b5bd1}
+  .cta .secondary{color:#d0defe}
+  /* Print */
+  @media print{
+    body{background:white; color:#111}
+    .card, .ob{box-shadow:none; border-color:#ccc; background:#fff !important}
+    a{color:#0645ad !important}
+    .role-switch, .cta{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="h1">
+    <span>VERI*FACTU / Anti‑Fraud Law</span>
+    <span class="tag">SIF • Spain</span>
+    <span class="tag">Updated: 24 Aug 2025</span>
+  </div>
+  <div class="subtitle">Visual, interactive summary of the SIF Regulation (RD 1007/2023) and its amendment (RD 254/2025), with obligations, deadlines, and a checklist.</div>
+</header>
+
+<section class="grid">
+  <!-- Left: obligations and timeline -->
+  <article class="card" id="roles">
+    <h2>Key obligations</h2>
+    <div class="role-switch">
+      <button data-role="businesses" class="active">Businesses and self‑employed</button>
+      <button data-role="manufacturers">Manufacturers / Developers</button>
+      <button data-role="both">Show all</button>
+    </div>
+    <div class="content">
+      <div class="oblig-list" id="obligations">
+        <!-- injected by JS -->
+      </div>
+      <div class="kpi">
+        <div class="box"><div class="num">1 Jan 2026</div><div class="lbl">In force for Corporate Income Tax payers</div></div>
+        <div class="box"><div class="num">1 Jul 2026</div><div class="lbl">In force for the rest (self‑employed, etc.)</div></div>
+        <div class="box"><div class="num">29 Jul 2025</div><div class="lbl">Deadline for adapted software (manufacturers)</div></div>
+      </div>
+    </div>
+    <div class="cta">
+      <div class="note">Allowed modes: <span class="badge">VERI*FACTU</span> or <span class="badge">Non‑verifiable</span> (with event log). QR is mandatory on all SIF invoices.</div>
+      <button class="primary" onclick="window.print()">Print / PDF</button>
+    </div>
+  </article>
+
+  <!-- Right: timeline -->
+  <aside class="card">
+    <h2>Key dates</h2>
+    <div class="content timeline">
+      <div class="tl-item">
+        <div class="dot"></div>
+        <h3>Order HAC/1177/2024</h3>
+        <div class="date">17 Oct 2024 • Effective 29 Oct 2024</div>
+        <p>Technical and content specs of the SIF Regulation. Starts the 9‑month clock for manufacturers.</p>
+      </div>
+      <div class="tl-item">
+        <div class="dot"></div>
+        <h3>29 Jul 2025</h3>
+        <div class="date">9 months from the Order</div>
+        <p><b>Manufacturers/distributors</b> must offer fully adapted software compliant with the SIF Regulation and the Order. AEAT service ready to receive VERI*FACTU records.</p>
+      </div>
+      <div class="tl-item">
+        <div class="dot"></div>
+        <h3>01 Jan 2026</h3>
+        <div class="date">RD 254/2025</div>
+        <p>Obligation for <b>Corporate Income Tax</b> taxpayers to operate with an adapted SIF (including QR and invoicing records).</p>
+      </div>
+      <div class="tl-item">
+        <div class="dot"></div>
+        <h3>01 Jul 2026</h3>
+        <div class="date">RD 254/2025</div>
+        <p>Obligation for the <b>self‑employed and others</b> required to issue invoices.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Full width: Checklist -->
+  <article class="card" style="grid-column:1/-1">
+    <h2>Compliance checklist</h2>
+    <div class="content">
+      <ul class="checklist" id="checklist">
+        <!-- injected by JS -->
+      </ul>
+    </div>
+    <div class="cta">
+      <div class="note">Progress is saved locally in your browser.</div>
+      <button class="secondary" onclick="resetChecklist()">Reset checklist</button>
+    </div>
+  </article>
+
+  <!-- Full width: Glossary and penalties -->
+  <article class="card" style="grid-column:1/-1">
+    <h2>Quick glossary and penalties</h2>
+    <div class="content glossary">
+      <details open>
+        <summary>SIF • Invoicing Information System</summary>
+        <p>Software that issues invoices and generates an <b>invoicing record</b> for each invoice (create/cancel), with a chained <b>SHA‑256 hash</b>, and, if not VERI*FACTU, an <b>event log</b> as well. It must ensure integrity, traceability, unalterability, preservation, accessibility, and legibility.</p>
+      </details>
+      <details>
+        <summary>VERI*FACTU</summary>
+        <p>Mode in which the SIF sends the invoicing record to the AEAT <b>at the time of issuance</b>. The invoice includes a <b>QR code</b> and the legend “<i>Invoice verifiable at the AEAT e‑office</i>” or “<i>VERI*FACTU</i>”.</p>
+      </details>
+      <details>
+        <summary>Event log</summary>
+        <p>Mandatory in <b>non‑verifiable</b> systems. Logs, among others: start/end of non‑verifiable mode, restores, exports, and an <b>anomaly detector</b>. A <b>summary is recorded every 6 hours</b> of operation.</p>
+      </details>
+      <details>
+        <summary>Scope and exceptions</summary>
+        <p>Applies to systems that issue invoices. <b>Excluded</b> are some SII situations where the invoice is materially issued by the recipient or a third party by mandatory rule, while the taxable person remains responsible.</p>
+      </details>
+      <details>
+        <summary>Penalties (LGT art. 201 bis)</summary>
+        <p><b>Manufacture/distribution</b> of non‑compliant software: <b>€150,000</b> per fiscal year and type; lack of certification when applicable: <b>€1,000</b> per system. <b>Possession/use</b> of non‑compliant systems by users: <b>€50,000</b> per fiscal year.</p>
+      </details>
+    </div>
+  </article>
+
+  <!-- Sources -->
+  <article class="card" style="grid-column:1/-1">
+    <h2>Official sources</h2>
+    <div class="content">
+      <div class="sources">
+        <div>• RD 1007/2023, SIF Regulation (BOE): <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-24840" target="_blank" rel="noopener">https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-24840</a></div>
+        <div>• RD 254/2025, amendment and <i>deadlines</i> (BOE): <a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2025-6600" target="_blank" rel="noopener">https://www.boe.es/buscar/doc.php?id=BOE-A-2025-6600</a></div>
+        <div>• Order HAC/1177/2024, technical specs (BOE): <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2024-22138" target="_blank" rel="noopener">https://www.boe.es/buscar/act.php?id=BOE-A-2024-22138</a></div>
+        <div>• AEAT • SIF and VERI*FACTU FAQ: <a href="https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html" target="_blank" rel="noopener">https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu.html</a></div>
+      </div>
+      <p class="note" style="margin-top:10px">This is a non‑binding informational summary. Check the current version in the BOE/AEAT.</p>
+    </div>
+  </article>
+</section>
+
+<script>
+// Data
+const OBLIGATIONS = {
+  businesses: [
+    {t:"Generate an invoicing record for every invoice", d:"Create and, where applicable, cancel, with chained SHA‑256 hash. Tax QR is mandatory on the invoice."},
+    {t:"Choose SIF mode", d:"VERI*FACTU (immediate submission of records to AEAT) or Non‑verifiable (with event log and chain verification)."},
+    {t:"Adoption deadlines", d:"Corporate Income Tax payers: 01/01/2026. Others (self‑employed, etc.): 01/07/2026."},
+    {t:"Delegation possible but responsibility remains", d:"Recipient/third party may issue materially, but the liable person remains responsible for compliance."},
+    {t:"Preservation and legibility", d:"Keep records accessible, legible, and unalterable as required by the Regulation and the Order."}
+  ],
+  manufacturers: [
+    {t:"Availability of adapted software", d:"By 29/07/2025 (9 months from Order HAC/1177/2024). Includes maintenance contracts."},
+    {t:"Responsible declaration", d:"Certifies compliance with the Regulation and the Order; accompanied by technical documentation."},
+    {t:"Integrity and unalterability", d:"Deleting/altering records is prohibited. Corrections are made by new chained records."},
+    {t:"Events for non‑verifiable systems", d:"Log key events and record a summary every 6 hours; anomaly detector is mandatory."},
+    {t:"Submission capability and QR", d:"Implement submission of invoicing records to AEAT for VERI*FACTU and QR/legend generation as per the rule."}
+  ]
+};
+
+// Render obligations
+const cont = document.getElementById('obligations');
+const buttons = document.querySelectorAll('.role-switch button');
+let role = 'businesses';
+
+function renderObligations(){
+  cont.innerHTML = '';
+  const list = role==='both' ? [...OBLIGATIONS.businesses, ...OBLIGATIONS.manufacturers] : OBLIGATIONS[role];
+  list.forEach(item=>{
+    const div = document.createElement('div');
+    div.className = 'ob';
+    div.innerHTML = `<h4>${item.t}</h4><p>${item.d}</p>`;
+    cont.appendChild(div);
+  });
+}
+buttons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    role = btn.dataset.role;
+    renderObligations();
+  });
+});
+renderObligations();
+
+// Checklist
+const ITEMS = [
+  {id:'sif_mod', text:'I have chosen the mode: VERI*FACTU or Non‑verifiable with event log.'},
+  {id:'vendor', text:'My invoicing software complies with the SIF Regulation and Order HAC/1177/2024.'},
+  {id:'qr', text:'My invoices include the tax QR code and, where applicable, the “VERI*FACTU” legend.'},
+  {id:'rf', text:'My SIF generates and preserves invoicing records (create/cancel) with a chained hash.'},
+  {id:'events', text:'If using a non‑verifiable system, the event log and anomaly detector are active.'},
+  {id:'delegation', text:'If I delegate issuance to a third party/recipient, I retain responsibility and evidence.'},
+  {id:'deadlines', text:'Implementation plan aligned with 01/01/2026 (CIT) or 01/07/2026 (others).'},
+  {id:'training', text:'Team trained and internal procedure for issue/correction/cancellation in line with the Regulation.'}
+];
+const list = document.getElementById('checklist');
+function loadState(id){ try{ return localStorage.getItem('chk_'+id)==='1'; }catch(e){ return false; } }
+function saveState(id,val){ try{ localStorage.setItem('chk_'+id, val?'1':'0'); }catch(e){} }
+function resetChecklist(){
+  ITEMS.forEach(i=>saveState(i.id,false));
+  renderChecklist();
+}
+function renderChecklist(){
+  list.innerHTML='';
+  ITEMS.forEach(i=>{
+    const li = document.createElement('li');
+    const checked = loadState(i.id);
+    li.innerHTML = `<input type="checkbox" id="${i.id}" ${checked?'checked':''}><label for="${i.id}"><strong>${i.text}</strong><br><small>Saved in localStorage</small></label>`;
+    list.appendChild(li);
+    li.querySelector('input').addEventListener('change', (e)=> saveState(i.id, e.target.checked));
+  });
+}
+renderChecklist();
+</script>
+</body>
+</html>
+"""
+path = "/mnt/data/verifactu_en.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html_en)
+path
