@@ -1,3 +1,3 @@
 # guestready
 #
-https://joseluismin.github.io/guestready/
+https://joseluismin.github.io/guestreadyes/
